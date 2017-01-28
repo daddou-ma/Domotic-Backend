@@ -7,7 +7,9 @@
   "author": "Daddou Mohamed El Amine & Haddadi Ben Taimia",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.16.0",
     "express": "^4.14.0",
+    "i18n": "^0.8.3",
     "mongoose": "^4.7.8"
   }
 }

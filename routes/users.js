@@ -1,24 +1,28 @@
 /** **/
-let express = require('express')
-let userController = require('../controllers/users')
-let router = express.Router()
+let express         = require('express')
+let userController  = require('../controllers/users.controller')
+let router          = express.Router()
 
+/** GET /users **/
 router.get('/', function(req, res, next) {
 
     userController.index(req ,res)
 })
 
+/** GET /users/id **/
 router.get('/:id', function(req, res, next) {
 
     userController.show(req ,res)
 })
 
+/** POST /users/ **/
 router.post('/', function(req, res, next) {
 
     userController.create(req ,res)
 })
 
-router.put('/', function(req, res, next) {
+/** PUT /users/ **/
+router.put('/:id', function(req, res, next) {
 
     userController.update(req ,res)
 })
