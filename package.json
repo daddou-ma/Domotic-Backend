@@ -1,0 +1,13 @@
+{
+  "name": "domotic-backend",
+  "version": "1.0.0",
+  "description": "Domotique BackEnd",
+  "main": "index.js",
+  "repository": "https://github.com/Mohamed-El-Amine-D/Domotic-Backend",
+  "author": "Daddou Mohamed El Amine & Haddadi Ben Taimia",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongoose": "^4.7.8"
+  }
+}
