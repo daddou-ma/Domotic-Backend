@@ -19,7 +19,7 @@
         "created"   : "Utilisateur Ajouté !",
         "updated"   : "Utilisateur Modifiée !",
         "deleted"   : "Utilisateur Supprimée !",
-        "restore"   : "Utilisateur Restorée !",
+        "restored"  : "Utilisateur Restorée !",
         "notfounded": "Utilisateur Introuvable !"
     }
 }

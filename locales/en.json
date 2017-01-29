@@ -3,24 +3,23 @@
 	"user": {
 		"fields": {
 			"name": {
-				"name": "Name",
-				"required": "Name field must be filled !"
+				"name"      : "Name",
+				"required"  : "Name field must be filled !"
 			},
 			"email": {
-				"name": "Email",
-				"required": "Email field must be filled !",
-				"unique": "This Email is already Registered !"
+				"name"      : "Email",
+				"required"  : "Email field must be filled !",
+				"unique"    : "This Email is already Registered !"
 			},
 			"password": {
-				"name": "Password",
-				"required": "Password field must be filled !"
+				"name"      : "Password",
+				"required"  : "Password field must be filled !"
 			}
 		},
-		"created": "User Added !",
-		"updated": "User Edited !",
-		"deleted": "User Deleted !",
-		"restore": "User Restored !",
-		"notfounded": "User Not Found !",
-		"restored": "user.restored"
-	}
+		"created"     : "User Added !",
+		"updated"     : "User Edited !",
+		"deleted"     : "User Deleted !",
+		"restored"    : "User Restored !",
+		"notfounded"  : "User Not Found !"
+    }
 }

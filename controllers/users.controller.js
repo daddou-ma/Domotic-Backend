@@ -6,8 +6,12 @@ let User = require('../models/users.model')
  * @param {Object|Object} request & response
  */
 let index = (req, res) => {
-    User.find({}, function(err, users) {
+    User.find({})
+    .then(function(users) {
         res.json(users)
+    })
+    .catch(function(err) {
+        errorHandler(res, err)
     })
 }
 
