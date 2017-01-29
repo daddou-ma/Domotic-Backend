@@ -1,7 +1,10 @@
 /** Includes **/
-let express = require('express')
-let mongoose = require('mongoose')
-let bodyParser = require('body-parser')
+let express     = require('express')
+let mongoose    = require('mongoose')
+let bodyParser  = require('body-parser')
+
+let lang = require('./commons/lang')
+
 
 /** Includes Routes **/
 let users = require('./routes/users')
@@ -21,6 +24,14 @@ mongoose.connect(mongoDB, function(err) {
 let db = mongoose.connection
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+
+
+
+app.use(lang.init)
+
+
+lang.setLocale('fr')
+console.log(lang.__("user.created"))
 
 
 /** Body Parser **/

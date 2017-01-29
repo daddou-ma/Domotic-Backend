@@ -2,24 +2,26 @@
 let mongoose    = require('mongoose');
 let Schema      = mongoose.Schema;
 
+let lang        = require('../commons/lang')
+
 
 /** User Schema Declaration **/
 let userSchema = new Schema({
     name: {
         type        : String,
         match       : /[a-zA-Z]+$/,
-        required    : [true, "User Name Required"]
+        required    : [true, lang.__('user.fields.name.required')]
     },
     email: {
         type        : String,
         match       : /[a-zA-Z]+$/,
-        required    : [true, "User Email Required"],
-        unique      : [true, "User Email Must Be Unique"],
+        required    : [true, lang.__('user.fields.email.required')],
+        unique      : [true, lang.__('user.fields.email.unique')],
         readonly    : true
     },
     password: {
         type        : String,
-        required    : [true, "User Password Required"]
+        required    : [true, lang.__('user.fields.password.required')]
     },
     admin: {
         type        : Boolean,

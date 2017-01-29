@@ -34,7 +34,7 @@ let create = (req, res) => {
 
     user.save()
     .then(function(user) {
-        successHandler(res, "User Created")
+        successHandler(res, req.__('user.created'))
     })
     .catch(function(err) {
         errorHandler(res, err)
@@ -52,7 +52,7 @@ let update = (req, res) => {
         // Update User
         user.update(mapParams(req.body))
         .then(function(user) {
-            successHandler(res, "User Updated")
+            successHandler(res, req.__('user.updated'))
         })
         .catch(function(err) {
             errorHandler(res, err)
@@ -73,7 +73,7 @@ let destroy = (req, res) => {
         // Delete User
         user.delete()
         .then(function(user) {
-            successHandler(res, "User Deleted")
+            successHandler(res, req.__('user.deleted'))
         })
         .catch(function(err) {
             errorHandler(res, err)
@@ -94,7 +94,7 @@ let restore = (req, res) => {
         // Restore User
         user.restore()
         .then(function(user) {
-            successHandler(res, "User Restored")
+            successHandler(res,  req.__('user.restored'))
         })
         .catch(function(err) {
             errorHandler(res, err)

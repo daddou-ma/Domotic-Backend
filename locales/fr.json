@@ -1,0 +1,25 @@
+{
+	"hello": "Salut !",
+    "user": {
+        "fields": {
+            "name": {
+                "name"      : "Nom",
+                "required"  : "Le Champ du Nom doit etre remplit !"
+            },
+            "email": {
+                "name"      : "Email",
+                "required"  : "Le Champ du Email doit etre remplit !",
+                "unique"    : "Cet Email est deja inscrit !"
+            },
+            "password": {
+                "name"      : "Mot De Passe",
+                "required"  : "Le Champ du Mot de Passe doit etre remplit !"
+            }
+        },
+        "created"   : "Utilisateur Ajouté !",
+        "updated"   : "Utilisateur Modifiée !",
+        "deleted"   : "Utilisateur Supprimée !",
+        "restore"   : "Utilisateur Restorée !",
+        "notfounded": "Utilisateur Introuvable !"
+    }
+}
