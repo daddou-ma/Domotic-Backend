@@ -2,12 +2,18 @@
 let express     = require('express')
 let mongoose    = require('mongoose')
 let bodyParser  = require('body-parser')
+let dotenv      = require('dotenv')
+let cookieParser = require('cookie-parser')
+let lang        = require('./commons/lang')
 
-let lang = require('./commons/lang')
+
+/** loading .ENV file and Configuration **/
+dotenv.config()
 
 
 /** Includes Routes **/
-let users = require('./routes/users')
+let users       = require('./routes/users')
+let sessions    = require('./routes/sessions')
 
 
 /** Creating App Server **/
@@ -26,7 +32,6 @@ let db = mongoose.connection
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 
-
 app.use(lang.init)
 
 
@@ -39,9 +44,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
-/** Routes Setup **/
-app.use('/users', users)
+/** Cookie Parser **/
+app.use(cookieParser())
 
+
+/** Routes Setup **/
+app.use('/users',     users)
+app.use('/sessions',  sessions)
 
 
 /** Export App & Server to use it in bin/www **/

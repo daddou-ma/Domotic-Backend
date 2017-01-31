@@ -1,4 +1,5 @@
-let User = require('../models/users.model')
+let User        = require('../models/users.model')
+let response    = require('../helpers/responses.helper')
 
 
 /**
@@ -11,7 +12,7 @@ let index = (req, res) => {
         res.json(users)
     })
     .catch(function(err) {
-        errorHandler(res, err)
+        response.errorHandler(res, err)
     })
 }
 
@@ -20,12 +21,14 @@ let index = (req, res) => {
  * @param {Object|Object} request & response
  */
 let show = (req, res) => {
-    User.findOne({_id : req.params.id})
+    let id = req.params.id
+    
+    User.findOne({_id : id})
     .then(function(user) {
         res.json(user)
     })
     .catch(function(err) {
-        errorHandler(res, err)
+        response.errorHandler(res, err)
     })
 }
 
@@ -34,14 +37,14 @@ let show = (req, res) => {
  * @param {Object|Object} request & response
  */
 let create = (req, res) => {
-    let user = new User(mapParams(req.body))
+    let user = new User(mapParams(req))
 
     user.save()
     .then(function(user) {
-        successHandler(res, req.__('user.created'))
+        response.successHandler(res, req.__('user.created'))
     })
     .catch(function(err) {
-        errorHandler(res, err)
+        response.errorHandler(res, err)
     })
 }
 
@@ -54,16 +57,16 @@ let update = (req, res) => {
     User.findOne({_id : req.params.id})
     .then(function(user) {
         // Update User
-        user.update(mapParams(req.body))
+        user.update(mapParams(req))
         .then(function(user) {
-            successHandler(res, req.__('user.updated'))
+            response.successHandler(res, req.__('user.updated'))
         })
         .catch(function(err) {
-            errorHandler(res, err)
+            response.errorHandler(res, err)
         })
     })
     .catch(function(err) {
-        errorHandler(res, err)
+        response.errorHandler(res, err)
     })
 }
 
@@ -77,14 +80,14 @@ let destroy = (req, res) => {
         // Delete User
         user.delete()
         .then(function(user) {
-            successHandler(res, req.__('user.deleted'))
+            response.successHandler(res, req.__('user.deleted'))
         })
         .catch(function(err) {
-            errorHandler(res, err)
+            response.errorHandler(res, err)
         })
     })
     .catch(function(err) {
-        errorHandler(res, err)
+        response.errorHandler(res, err)
     })
 }
 
@@ -98,33 +101,26 @@ let restore = (req, res) => {
         // Restore User
         user.restore()
         .then(function(user) {
-            successHandler(res,  req.__('user.restored'))
+            response.successHandler(res,  req.__('user.restored'))
         })
         .catch(function(err) {
-            errorHandler(res, err)
+            response.errorHandler(res, err)
         })
     })
     .catch(function(err) {
-        errorHandler(res, err)
+        response.errorHandler(res, err)
     })
 }
 
-let errorHandler = (res ,err) => {
-    res.status(400).json({
-        "success": false,
-        "errors" : err
-    })
-}
 
-let successHandler = (res, doc) => {
-    res.status(200).json({
-        "success": true,
-        "message": doc
-    })
-}
+/**
+ * Filter Params to create or update
+ * @param {Object} User
+ * @return {Object} User mapped
+ */
+let mapParams = (req) => {
+    let user = req.body || req.query
 
-/** Map Params **/
-let mapParams = (user) => {
     return {
         "name"      : user.name,
         "email"     : user.email,

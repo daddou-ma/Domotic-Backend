@@ -21,5 +21,13 @@
 		"deleted"     : "User Deleted !",
 		"restored"    : "User Restored !",
 		"notfounded"  : "User Not Found !"
+    },
+    "session": {
+        "noSession"      : "You are not connected !",
+        "invalidSession" : "Invalid Session !",
+        "wrongPassword"  : "Wrong Password !",
+        "userNotFound"   : "User Not Found !",
+        "authenticated"  : "You're Authenticated !",
+        "logout"         : "You're Deconnected !"
     }
 }

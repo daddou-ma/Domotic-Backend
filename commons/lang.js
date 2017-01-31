@@ -1,3 +1,4 @@
+/** Includes **/
 let i18n = require("i18n")
 
 
@@ -9,4 +10,5 @@ i18n.configure({
     objectNotation: true,
 })
 
+/** Export Module **/
 module.exports = i18n

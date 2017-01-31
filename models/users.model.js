@@ -27,6 +27,9 @@ let userSchema = new Schema({
         type        : Boolean,
         default     : false
     },
+    token: {
+        type        : String,
+    },
     deleted: {
         type        : Boolean,
         default     : false
@@ -80,10 +83,26 @@ userSchema.methods.restore = function (callback) {
 
 /** Overrinding toJSON to hide fields **/
 userSchema.methods.toJSON = function() {
-  var obj = this.toObject()
-  delete obj.password
-  return obj
+    var obj = this.toObject()
+    //delete obj.password
+    //delete obj.token
+
+    return obj
 }
+
+
+/** User Connect Method **/
+userSchema.methods.connect = function (token) {
+    this.token = token;
+    return this.save();
+};
+
+/** User Disconnect Method **/
+userSchema.methods.disconnect = function () {
+    this.token = undefined;
+    return this.save();
+};
+
 
 
 /** User Model **/

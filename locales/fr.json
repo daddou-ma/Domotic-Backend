@@ -21,5 +21,13 @@
         "deleted"   : "Utilisateur Supprimée !",
         "restored"  : "Utilisateur Restorée !",
         "notfounded": "Utilisateur Introuvable !"
+    },
+    "session": {
+        "noSession"      : "Vous n'etes pas connecté !",
+        "invalidSession" : "Session Invalide !",
+        "wrongPassword"  : "Mot de passe non correct !",
+        "userNotFound"   : "Utilisateur Untrouvable !",
+        "authenticated"  : "Vous etes connecté !",
+        "logout"         : "Vous etes deconnecté !"
     }
 }

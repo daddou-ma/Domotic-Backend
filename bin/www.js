@@ -1,8 +1,10 @@
-
+/** Includes **/
 let app = require('../index').app
 let http = require('http')
 let server = require('../index').server
 
-app.set('port', 3000)
+/** Set Application Port **/
+app.set('port', process.env.APP_PORT)
 
-server.listen(3000);
+/** Listen to Port **/
+server.listen(process.env.APP_PORT)
