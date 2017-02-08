@@ -7,11 +7,11 @@ let response    = require('../helpers/responses.helper')
  * @param {Object|Object} request & response
  */
 let index = (req, res) => {
-    User.find({})
-    .then(function(users) {
+    User.find()
+    .then((users) => {
         res.json(users)
     })
-    .catch(function(err) {
+    .catch((err) => {
         response.errorHandler(res, err)
     })
 }
@@ -24,10 +24,10 @@ let show = (req, res) => {
     let id = req.params.id
     
     User.findOne({_id : id})
-    .then(function(user) {
+    .then((user) => {
         res.json(user)
     })
-    .catch(function(err) {
+    .catch((err) => {
         response.errorHandler(res, err)
     })
 }
@@ -40,10 +40,10 @@ let create = (req, res) => {
     let user = new User(mapParams(req))
 
     user.save()
-    .then(function(user) {
+    .then((user) => {
         response.successHandler(res, req.__('user.created'))
     })
-    .catch(function(err) {
+    .catch((err) => {
         response.errorHandler(res, err)
     })
 }
@@ -55,17 +55,17 @@ let create = (req, res) => {
 let update = (req, res) => {
     // Find User
     User.findOne({_id : req.params.id})
-    .then(function(user) {
+    .then((user) => {
         // Update User
         user.update(mapParams(req))
-        .then(function(user) {
+        .then((user) => {
             response.successHandler(res, req.__('user.updated'))
         })
-        .catch(function(err) {
+        .catch((err) => {
             response.errorHandler(res, err)
         })
     })
-    .catch(function(err) {
+    .catch((err) => {
         response.errorHandler(res, err)
     })
 }
@@ -76,17 +76,17 @@ let update = (req, res) => {
  */
 let destroy = (req, res) => {
     User.findOne({_id : req.params.id})
-    .then(function(user) {
+    .then((user) => {
         // Delete User
         user.delete()
-        .then(function(user) {
+        .then((user) => {
             response.successHandler(res, req.__('user.deleted'))
         })
-        .catch(function(err) {
+        .catch((err) => {
             response.errorHandler(res, err)
         })
     })
-    .catch(function(err) {
+    .catch((err) => {
         response.errorHandler(res, err)
     })
 }
@@ -97,17 +97,17 @@ let destroy = (req, res) => {
  */
 let restore = (req, res) => {
     User.findOne({_id : req.params.id})
-    .then(function(user) {
+    .then((user) => {
         // Restore User
         user.restore()
-        .then(function(user) {
+        .then((user) => {
             response.successHandler(res,  req.__('user.restored'))
         })
-        .catch(function(err) {
+        .catch((err) => {
             response.errorHandler(res, err)
         })
     })
-    .catch(function(err) {
+    .catch((err) => {
         response.errorHandler(res, err)
     })
 }

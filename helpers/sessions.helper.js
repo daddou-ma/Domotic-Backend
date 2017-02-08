@@ -13,7 +13,7 @@ let auth = (username, password) => {
     let promise = new Promise(function(resolve, reject) {
         
         User.findOne({email: username})
-        .then(function(user) {
+        .then((user) => {
             if (user.password === password) {
                 let token = createToken(user)
                 user.connect(token)
@@ -23,7 +23,7 @@ let auth = (username, password) => {
                 reject(lang.__('session.wrongPassword'))
             }
         })
-        .catch(function(err) {
+        .catch((err) => {
             reject(lang.__('session.userNotFound'))
         })
     })
@@ -38,9 +38,9 @@ let auth = (username, password) => {
  * @return {Promise} 
  */
 let checkAuth = (token) => {
-    let promise = new Promise(function(resolve, reject) {
+    let promise = new Promise((resolve, reject) => {
         
-        jwt.verify(token, process.env.API_SECRET, function(err, decoded) {
+        jwt.verify(token, process.env.API_SECRET, (err, decoded) => {
             if (err) {
                 reject(err)
             }
@@ -67,18 +67,18 @@ let logout = (token) => {
     catch(err) {
     }
     
-    let promise = new Promise(function(resolve, reject) {
+    let promise = new Promise((resolve, reject) => {
         if (!decoded) {
             reject(lang.__('session.invalidSession'))
         }
         
         User.findOne({email: decoded.email})
-        .then(function(user) {
+        .then((user) => {
             // empty the token field in database
             user.disconnect()
             resolve(lang.__('session.logout'))
         })
-        .catch(function(err) {
+        .catch((err) => {
             reject(err)
         })
         

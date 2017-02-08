@@ -30,37 +30,37 @@ router.use(function(req, res, next) {
 })
 
 /** GET /users **/
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
     
     userController.index(req ,res)
 })
 
 /** GET /users/id **/
-router.get('/:id', function(req, res, next) {
+router.get('/:id', (req, res, next) => {
 
     userController.show(req ,res)
 })
 
 /** POST /users/ **/
-router.post('/', function(req, res, next) {
+router.post('/', (req, res, next) => {
 
     userController.create(req ,res)
 })
 
 /** PUT /users/ **/
-router.put('/:id', function(req, res, next) {
+router.put('/:id', (req, res, next) => {
 
     userController.update(req ,res)
 })
 
 /** delete /users/:id **/
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', (req, res, next) => {
 
     userController.destroy(req ,res)
 })
 
 /** get /users/:id/restore **/
-router.get('/:id/restore', function(req, res, next) {
+router.get('/:id/restore', (req, res, next) => {
 
     userController.restore(req ,res)
 })

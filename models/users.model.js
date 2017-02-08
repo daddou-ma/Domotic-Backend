@@ -97,12 +97,12 @@ userSchema.methods.connect = function (token) {
     return this.save();
 };
 
+
 /** User Disconnect Method **/
 userSchema.methods.disconnect = function () {
     this.token = undefined;
     return this.save();
 };
-
 
 
 /** User Model **/

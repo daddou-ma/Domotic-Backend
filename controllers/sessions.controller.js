@@ -18,7 +18,7 @@ let create = (req, res) => {
     
     // User authentication
     Auth(username, password)
-    .then(function(token) {
+    .then((token) => {
         // add token to cookies for Browsers
         res.cookie('_token', token, { maxAge: process.env.TOKEN_TIMEOUT});
         
@@ -28,7 +28,7 @@ let create = (req, res) => {
             token   : token
         })
     })
-    .catch(function(err) {
+    .catch((err) => {
       response.errorHandler(res, err)
     })
 }
@@ -43,11 +43,11 @@ let destroy = (req, res) => {
     
     // Logout user
     Logout(token)
-    .then(function(doc) {
+    .then((doc) => {
         res.cookie('_token', '', { maxAge: process.env.TOKEN_TIMEOUT});
         response.successHandler(res, doc)
     })
-    .catch(function(err) {
+    .catch((err) => {
         response.errorHandler(res, err)
     })
 }

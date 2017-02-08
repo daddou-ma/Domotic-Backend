@@ -6,13 +6,13 @@ let router          = express.Router()
 
 
 /** POST /auth **/
-router.post('/auth', function(req, res, next) {
+router.post('/auth', (req, res, next) => {
 
     sessionController.create(req ,res)
 })
 
 /** DELETE /logout **/
-router.delete('/logout', function(req, res, next) {
+router.delete('/logout', (req, res, next) => {
 
     sessionController.destroy(req ,res)
 })

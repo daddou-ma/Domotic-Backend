@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.16.0",
+    "chai-http": "^3.0.0",
     "dotenv": "^4.0.0",
     "express": "^4.14.0",
     "i18n": "^0.8.3",
@@ -18,7 +19,7 @@
     "chai": "^3.5.0",
     "mocha": "^3.2.0"
   },
-   "scripts": {
+  "scripts": {
     "start": "node index.js",
     "test": "mocha --timeout 10000"
   }

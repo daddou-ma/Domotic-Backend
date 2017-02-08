@@ -1,33 +1,33 @@
 {
 	"hello": "Salut !",
-    "user": {
-        "fields": {
-            "name": {
-                "name"      : "Nom",
-                "required"  : "Le Champ du Nom doit etre remplit !"
-            },
-            "email": {
-                "name"      : "Email",
-                "required"  : "Le Champ du Email doit etre remplit !",
-                "unique"    : "Cet Email est deja inscrit !"
-            },
-            "password": {
-                "name"      : "Mot De Passe",
-                "required"  : "Le Champ du Mot de Passe doit etre remplit !"
-            }
-        },
-        "created"   : "Utilisateur Ajouté !",
-        "updated"   : "Utilisateur Modifiée !",
-        "deleted"   : "Utilisateur Supprimée !",
-        "restored"  : "Utilisateur Restorée !",
-        "notfounded": "Utilisateur Introuvable !"
-    },
-    "session": {
-        "noSession"      : "Vous n'etes pas connecté !",
-        "invalidSession" : "Session Invalide !",
-        "wrongPassword"  : "Mot de passe non correct !",
-        "userNotFound"   : "Utilisateur Untrouvable !",
-        "authenticated"  : "Vous etes connecté !",
-        "logout"         : "Vous etes deconnecté !"
-    }
+	"user": {
+		"fields": {
+			"name": {
+				"name": "Nom",
+				"required": "Le Champ du Nom doit etre remplit !"
+			},
+			"email": {
+				"name": "Email",
+				"required": "Le Champ du Email doit etre remplit !",
+				"unique": "Cet Email est deja inscrit !"
+			},
+			"password": {
+				"name": "Mot De Passe",
+				"required": "Le Champ du Mot de Passe doit etre remplit !"
+			}
+		},
+		"created": "Utilisateur Ajouté !",
+		"updated": "Utilisateur Modifiée !",
+		"deleted": "Utilisateur Supprimée !",
+		"restored": "Utilisateur Restorée !",
+		"notfounded": "Utilisateur Introuvable !",
+	},
+	"session": {
+		"noSession": "Vous n'etes pas connecté !",
+		"invalidSession": "Session Invalide !",
+		"wrongPassword": "Mot de passe non correct !",
+		"userNotFound": "Utilisateur Untrouvable !",
+		"authenticated": "Vous etes connecté !",
+		"logout": "Vous etes deconnecté !"
+	}
 }
