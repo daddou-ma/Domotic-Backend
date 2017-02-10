@@ -22,7 +22,20 @@ let server = require('http').Server(app)
 
 
 /** Database Connection **/
-let mongoDB = 'mongodb://localhost/data'
+
+let mongoDB = 'mongodb://' + process.env.PROD_DB_HOST + '/' + process.env.PROD_DB_NAME
+
+if (process.env.APP_ENV == "production") {
+    mongoDB = 'mongodb://' + process.env.PROD_DB_HOST + '/' + process.env.PROD_DB_NAME
+}
+if (process.env.APP_ENV == "developement") {
+    mongoDB = 'mongodb://' + process.env.DEV_DB_HOST + '/' + process.env.DEV_DB_NAME
+}
+if (process.env.APP_ENV == "test") {
+    mongoDB = 'mongodb://' + process.env.TEST_DB_HOST + '/' + process.env.TEST_DB_NAME
+}
+
+
 mongoose.connect(mongoDB, function(err) {
     if (err) { throw err }
 })

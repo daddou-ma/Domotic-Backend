@@ -1,3 +1,5 @@
+process.env.APP_ENV = 'test'
+
 let mongoose = require("mongoose")
 let User = require('../models/users.model')
 let session = require('../helpers/sessions.helper')
