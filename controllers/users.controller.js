@@ -1,5 +1,6 @@
 let User        = require('../models/users.model')
 let response    = require('../helpers/responses.helper')
+let lang        = require('../commons/lang')
 
 
 /**
@@ -44,6 +45,24 @@ let create = (req, res) => {
         response.successHandler(res, req.__('user.created'))
     })
     .catch((err) => {
+        if ( err && err.code === 11000 ) {
+            err = {
+                errors: {
+                    email: {
+                        "message": lang.__('user.fields.email.unique'),
+                        "name": "ValidatorError",
+                        "properties": {
+                            "type": "required",
+                            "message": "This Email is already used !",
+                            "path": "email"
+                        },
+                        "kind": "unique",
+                        "path": "email"
+                    }
+                },
+                name : "ValidationError"
+            }
+        }
         response.errorHandler(res, err)
     })
 }

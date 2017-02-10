@@ -48,10 +48,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 app.use(lang.init)
 
 
-lang.setLocale('fr')
-console.log(lang.__("user.created"))
-
-
 /** Body Parser **/
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

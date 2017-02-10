@@ -56,64 +56,55 @@ describe('Users API', () => {
     })
 
     describe('/POST user', () => {
-        it('it should not POST a user without name field', (done) => {
+        it('it should not POST a user without name/email/password field', (done) => {
             
             let user = {
+                token   : _token
+            }
+            
+            chai.request(server)
+            .post('/users')
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(400)
+                res.body.should.be.a('object')
+                res.body.should.have.property('errors')
+                res.body.errors.should.have.property('name').eql('ValidationError')
+                res.body.errors.errors.should.have.property('name')
+                res.body.errors.errors.should.have.property('email')
+                res.body.errors.errors.should.have.property('password')
+                done()
+            })
+        })
+        
+        it('it should not POST two users with same email', (done) => {
+            
+            let user = new User( {
+                name: "Amine",
                 email: "Amine@gmail.com",
                 password: "password",
                 token   : _token
-            }
-            
-            chai.request(server)
-            .post('/users')
-            .send(user)
-            .end((err, res) => {
-                res.should.have.status(400)
-                res.body.should.be.a('object')
-                res.body.should.have.property('errors')
-                res.body.errors.should.have.property('name').eql('ValidationError')
-                done()
             })
-        })
-        it('it should not POST a user without email field', (done) => {
             
-            let user = {
-                name    : "Amine",
-                password: "password",
-                token   : _token
-            }
-            
-            chai.request(server)
-            .post('/users')
-            .send(user)
-            .end((err, res) => {
-                res.should.have.status(400)
-                res.body.should.be.a('object')
-                res.body.should.have.property('errors')
-                res.body.errors.should.have.property('name').eql('ValidationError')
-                done()
+            user.save()
+            .then((user) => {
+                chai.request(server)
+                .post('/users')
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(400)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('errors')
+                    res.body.errors.should.have.property('name').eql('ValidationError')
+                    res.body.errors.should.have.property('errors')
+                    res.body.errors.errors.should.have.property('email')
+                    res.body.errors.errors.email.should.have.property('kind').eql('unique')
+                    done()
+                })
             })
+            .catch()
         })
-        it('it should not POST a user without password field', (done) => {
-            
-            let user = {
-                name    : "Amine",
-                email: "Amine@gmail.com",
-                token   : _token
-            }
-            
-            chai.request(server)
-            .post('/users')
-            .send(user)
-            .end((err, res) => {
-                res.should.have.status(400)
-                res.body.should.be.a('object')
-                res.body.should.have.property('errors')
-                res.body.errors.should.have.property('name').eql('ValidationError')
-                done()
-            })
-        })
-      
+        
         it('it should POST a user ', (done) => {
             
             let user = {
@@ -134,6 +125,8 @@ describe('Users API', () => {
             })
         })
     })
+    
+    
     /*
     * Test the /GET/:id route
     */

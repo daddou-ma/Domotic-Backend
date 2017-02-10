@@ -7,7 +7,19 @@ let lang            = require('../commons/lang')
 
 let router          = express.Router()
 
-/** adding middleware to **/
+/** adding Language middleware to router **/
+router.use(function(req, res, next) {
+
+    // check header or url parameters or post parameters for lang
+    let language = req.body.lang || req.query.lang || req.headers['lang'] || req.cookies['lang'] || 'en'
+    
+    res.cookie('lang', language , { maxAge: process.env.TOKEN_TIMEOUT});
+    lang.setLocale(language)
+    
+    next();
+})
+
+/** adding auth middleware to router **/
 router.use(function(req, res, next) {
 
     // check header or url parameters or post parameters for token
