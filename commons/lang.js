@@ -6,11 +6,11 @@ let i18n = require("i18n")
 i18n.configure({
     locales:['en', 'fr', 'ar'],
     cookie: 'lang',
-    queryParameter: 'lang',
     directory: __dirname + '/../locales',
     objectNotation: true,
     updateFiles: false,
-    syncFiles: false
+    syncFiles: false,
+    register: global
 })
 
 /** Export Module **/

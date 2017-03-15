@@ -1,5 +1,4 @@
 let User    = require('../models/users.model.js')
-let lang    = require('../commons/lang')
 let jwt     = require('jsonwebtoken')
 
 
@@ -20,11 +19,11 @@ let auth = (username, password) => {
                 resolve(token)
             }
             else {
-                reject(lang.__('session.wrongPassword'))
+                reject(__('session.wrongPassword'))
             }
         })
         .catch((err) => {
-            reject(lang.__('session.userNotFound'))
+            reject(__('session.userNotFound'))
         })
     })
     
@@ -44,7 +43,7 @@ let checkAuth = (token) => {
             if (err) {
                 reject(err)
             }
-            resolve(lang.__('session.authenticated'))
+            resolve(__('session.authenticated'))
         })
     })
     return promise
@@ -69,14 +68,14 @@ let logout = (token) => {
     
     let promise = new Promise((resolve, reject) => {
         if (!decoded) {
-            reject(lang.__('session.invalidSession'))
+            reject(__('session.invalidSession'))
         }
         
         User.findOne({email: decoded.email})
         .then((user) => {
             // empty the token field in database
             user.disconnect()
-            resolve(lang.__('session.logout'))
+            resolve(__('session.logout'))
         })
         .catch((err) => {
             reject(err)

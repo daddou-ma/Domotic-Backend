@@ -17,10 +17,10 @@
 			}
 		},
 		"created": "Utilisateur Ajouté !",
-		"updated": "Utilisateur Modifiée !",
-		"deleted": "Utilisateur Supprimée !",
-		"restored": "Utilisateur Restorée !",
-		"notfounded": "Utilisateur Introuvable !",
+		"updated": "Utilisateur Modifiee !",
+		"deleted": "Utilisateur Supprimee !",
+		"restored": "Utilisateur Restoree !",
+		"notfounded": "Utilisateur Introuvable !"
 	},
 	"session": {
 		"noSession": "Vous n'etes pas connecté !",

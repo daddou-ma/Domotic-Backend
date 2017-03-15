@@ -1,11 +1,11 @@
 /** Includes **/
 let express     = require('express')
+let lang        = require('./commons/lang')
 let mongoose    = require('mongoose')
 let bodyParser  = require('body-parser')
 let dotenv      = require('dotenv')
 let cookieParser = require('cookie-parser')
-let lang        = require('./commons/lang')
-
+let ArduinoSlave = require('arduino-slave-js')
 
 /** loading .ENV file and Configuration **/
 dotenv.config()
@@ -14,11 +14,16 @@ dotenv.config()
 /** Includes Routes **/
 let users       = require('./routes/users')
 let sessions    = require('./routes/sessions')
+let arduinos    = require('./routes/arduinos')
 
 
 /** Creating App Server **/
 let app = express()
 let server = require('http').Server(app)
+
+app.use(lang.init)
+
+ArduinoSlave.scanPorts()
 
 
 /** Database Connection **/
@@ -45,8 +50,6 @@ let db = mongoose.connection
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 
-app.use(lang.init)
-
 
 /** Body Parser **/
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -60,6 +63,7 @@ app.use(cookieParser())
 /** Routes Setup **/
 app.use('/users',     users)
 app.use('/sessions',  sessions)
+app.use('/arduinos',  arduinos)
 
 
 /** Export App & Server to use it in bin/www **/

@@ -1,10 +1,10 @@
 process.env.APP_ENV = 'test'
 
 let mongoose = require("mongoose")
-let User = require('../models/users.model')
+let lang    = require('../commons/lang')
+let User    = require('../models/users.model')
 let session = require('../helpers/sessions.helper')
 let server  = require('../index').server
-let lang    = require('../commons/lang')
 
 let chai    = require('chai');
 let chaiHttp = require('chai-http');

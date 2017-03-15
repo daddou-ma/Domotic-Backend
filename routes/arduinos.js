@@ -1,8 +1,8 @@
 /** **/
 let express         = require('express')
-let userController  = require('../controllers/users.controller')
+let arduinoController  = require('../controllers/arduinos.controller')
 let sessionHelper   = require('../helpers/sessions.helper')
-let responseHelper  = require('../helpers/responses.helper')
+let responseHelper  = require('../helpers/responses.helper')/** **/
 
 let router          = express.Router()
 
@@ -31,7 +31,7 @@ router.use(function(req, res, next) {
     // verifies secret and checks exp
     sessionHelper.checkAuth(token)
     .then(function(doc) {
-        /** if user authenticated call next **/
+        /** if arduino authenticated call next **/
         next()
     })
     .catch(function(err) {
@@ -40,40 +40,40 @@ router.use(function(req, res, next) {
 
 })
 
-/** GET /users **/
+/** GET /arduinos **/
 router.get('/', (req, res, next) => {
     
-    userController.index(req ,res)
+    arduinoController.index(req ,res)
 })
 
-/** GET /users/id **/
+/** GET /arduinos/id **/
 router.get('/:id', (req, res, next) => {
 
-    userController.show(req ,res)
+    arduinoController.show(req ,res)
 })
 
-/** POST /users/ **/
+/** POST /arduinos/ **/
 router.post('/', (req, res, next) => {
 
-    userController.create(req ,res)
+    arduinoController.create(req ,res)
 })
 
-/** PUT /users/ **/
+/** PUT /arduinos/ **/
 router.put('/:id', (req, res, next) => {
 
-    userController.update(req ,res)
+    arduinoController.update(req ,res)
 })
 
-/** delete /users/:id **/
+/** delete /arduinos/:id **/
 router.delete('/:id', (req, res, next) => {
 
-    userController.destroy(req ,res)
+    arduinoController.destroy(req ,res)
 })
 
-/** get /users/:id/restore **/
+/** get /arduinos/:id/restore **/
 router.get('/:id/restore', (req, res, next) => {
 
-    userController.restore(req ,res)
+    arduinoController.restore(req ,res)
 })
 
 /** Export the module **/
