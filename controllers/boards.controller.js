@@ -1,15 +1,16 @@
-let Arduino        = require('../models/arduinos.model')
+let Board        = require('../models/boards.model')
 let response    = require('../helpers/responses.helper')
 
 
 /**
- * Get All Arduinos
+ * Get All Boards
  * @param {Object|Object} request & response
  */
 let index = (req, res) => {
-    Arduino.find()
-    .then((arduinos) => {
-        res.json(arduinos)
+    Board.find()
+    .populate('airs')
+    .then((boards) => {
+        res.json(boards)
     })
     .catch((err) => {
         response.errorHandler(res, err)
@@ -17,15 +18,15 @@ let index = (req, res) => {
 }
 
 /**
- * Get Arduino by Id
+ * Get Board by Id
  * @param {Object|Object} request & response
  */
 let show = (req, res) => {
     let id = req.params.id
     
-    Arduino.findOne({_id : id})
-    .then((arduino) => {
-        res.json(arduino)
+    Board.findOne({_id : id})
+    .then((board) => {
+        res.json(board)
     })
     .catch((err) => {
         response.errorHandler(res, err)
@@ -33,26 +34,26 @@ let show = (req, res) => {
 }
 
 /**
- * Create a Arduino
+ * Create a Board
  * @param {Object|Object} request & response
  */
 let create = (req, res) => {
-    let arduino = new Arduino(mapParams(req))
+    let board = new Board(mapParams(req))
 
-    arduino.save()
-    .then((arduino) => {
-        response.successHandler(res, __('arduino.created'))
+    board.save()
+    .then((board) => {
+        response.successHandler(res, __('board.created'))
     })
     .catch((err) => {
         if ( err && err.code === 11000 ) {
             err = {
                 errors: {
                     email: {
-                        "message": __('arduino.fields.email.unique'),
+                        "message": __('board.fields.email.unique'),
                         "name": "ValidatorError",
                         "properties": {
                             "type": "required",
-                            "message": __('arduino.fields.email.unique'),
+                            "message": __('board.fields.email.unique'),
                             "path": "email"
                         },
                         "kind": "unique",
@@ -67,17 +68,17 @@ let create = (req, res) => {
 }
 
 /**
- * Update a Arduino
+ * Update a Board
  * @param {Object|Object} request & response
  */
 let update = (req, res) => {
-    // Find Arduino
-    Arduino.findOne({_id : req.params.id})
-    .then((arduino) => {
-        // Update Arduino
-        arduino.update(mapParams(req))
-        .then((arduino) => {
-            response.successHandler(res, __('arduino.updated'))
+    // Find Board
+    Board.findOne({_id : req.params.id})
+    .then((board) => {
+        // Update Board
+        board.update(mapParams(req))
+        .then((board) => {
+            response.successHandler(res, __('board.updated'))
         })
         .catch((err) => {
             response.errorHandler(res, err)
@@ -89,16 +90,16 @@ let update = (req, res) => {
 }
 
 /**
- * Delete Arduino by Id
+ * Delete Board by Id
  * @param {Object|Object} request & response
  */
 let destroy = (req, res) => {
-    Arduino.findOne({_id : req.params.id})
-    .then((arduino) => {
-        // Delete Arduino
-        arduino.delete()
-        .then((arduino) => {
-            response.successHandler(res, __('arduino.deleted'))
+    Board.findOne({_id : req.params.id})
+    .then((board) => {
+        // Delete Board
+        board.delete()
+        .then((board) => {
+            response.successHandler(res, __('board.deleted'))
         })
         .catch((err) => {
             response.errorHandler(res, err)
@@ -110,16 +111,16 @@ let destroy = (req, res) => {
 }
 
 /**
- * Restore a deleted Arduino by Id
+ * Restore a deleted Board by Id
  * @param {Object|Object} request & response
  */
 let restore = (req, res) => {
-    Arduino.findOne({_id : req.params.id})
-    .then((arduino) => {
-        // Restore Arduino
-        arduino.restore()
-        .then((arduino) => {
-            response.successHandler(res,  __('arduino.restored'))
+    Board.findOne({_id : req.params.id})
+    .then((board) => {
+        // Restore Board
+        board.restore()
+        .then((board) => {
+            response.successHandler(res,  __('board.restored'))
         })
         .catch((err) => {
             response.errorHandler(res, err)
@@ -133,16 +134,17 @@ let restore = (req, res) => {
 
 /**
  * Filter Params to create or update
- * @param {Object} Arduino
- * @return {Object} Arduino mapped
+ * @param {Object} Board
+ * @return {Object} Board mapped
  */
 let mapParams = (req) => {
-    let arduino = req.body || req.query
+    let board = req.body || req.query
 
     return {
-        "serial_number" : arduino.serial_number,
-        "name"          : arduino.name,
-        "serial_port"   : arduino.serial_port
+        "serial_number" : board.serial_number,
+        "name"          : board.name,
+        "type"          : board.type,
+        "ipv4"          : board.ipv4
     }
 }
 

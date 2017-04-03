@@ -3,21 +3,25 @@ let mongoose    = require('mongoose');
 let Schema      = mongoose.Schema;
 
 
-/** Arduino Schema Declaration **/
-let arduinoSchema = new Schema({
+/** Board Schema Declaration **/
+let boardSchema = new Schema({
+    _air: {
+        type        : Number,
+        ref         : 'Air'
+    },
     serial_number: {
         type        : String,
-        required    : [true, __('arduino.fields.identificator.required')],
-        unique      : [true, __('user.fields.email.unique')]
+        required    : [true, __('board.fields.serial_number.required')],
+        unique      : [true, __('board.fields.serial_number.unique')]
     },
-    name: {
+    ipv4: {
         type        : String,
-        match       : /[a-zA-Z]+$/,
-        required    : [true, __('arduino.fields.name.required')]
+        required    : [true, __('board.fields.ipv4required')]
     },
-    serial_port: {
+    type: {
         type        : String,
-        required    : [true, __('arduino.fields.serial_port.required')]
+        enum        : ['air', 'curtain', 'swistch', 'thg', 'remote'],
+        required    : [true, __('board.fields.type.required')]
     },
     plugged: {
         type        : Boolean,
@@ -25,7 +29,7 @@ let arduinoSchema = new Schema({
     },
     enabled: {
         type        : Boolean,
-        default     : false
+        default     : true
     },
     deleted: {
         type        : Boolean,
@@ -44,10 +48,8 @@ let arduinoSchema = new Schema({
     }
 });
 
-// TODO : Relations
-
-/** Action Done Before Saving a Arduino **/
-arduinoSchema.pre('save', function(next) {
+/** Action Done Before Saving a Board **/
+boardSchema.pre('save', function(next) {
     
     let currentDate = new Date();
     this.updated_at = currentDate;
@@ -60,8 +62,8 @@ arduinoSchema.pre('save', function(next) {
 });
 
 
-/** Arduino Delelte Method **/
-arduinoSchema.methods.delete = function(callback) {
+/** Board Delelte Method **/
+boardSchema.methods.delete = function(callback) {
     let currentDate = new Date();
     
     this.deleted = true;
@@ -70,23 +72,25 @@ arduinoSchema.methods.delete = function(callback) {
 };
 
 
-/** Arduino Restore Method **/
-arduinoSchema.methods.restore = function(callback) {
+/** Board Restore Method **/
+boardSchema.methods.restore = function(callback) {
     this.deleted = false;
     this.deleted_at = undefined;
     return this.save(callback);
 };
 
 /** Overrinding toJSON to hide fields **/
-arduinoSchema.methods.toJSON = function() {
+boardSchema.methods.toJSON = function() {
     var obj = this.toObject()
     return obj
 }
 
 
-/** Arduino Model **/
-let Arduino = mongoose.model('Arduino', arduinoSchema);
+/** Board Model **/
+let Board = mongoose.model('Board', boardSchema);
 
 
-/** Export The Arduino Model **/
-module.exports = Arduino
+/** Relationships **/
+
+/** Export The Board Model **/
+module.exports = Board
