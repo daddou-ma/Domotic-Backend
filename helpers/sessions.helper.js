@@ -8,7 +8,6 @@ let jwt     = require('jsonwebtoken')
  * @return {Promise} Token is success / error if failed
  */
 let auth = (username, password) => {
-    
     let promise = new Promise(function(resolve, reject) {
         
         User.findOne({email: username})

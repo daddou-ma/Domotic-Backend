@@ -6,15 +6,13 @@ let Schema      = mongoose.Schema;
 /** THG Schema Declaration **/
 let thgSchema = new Schema({
     board  : {
-        type        : ObjectId,
+        type        : Schema.Types.ObjectId,
         required    : [true, __('thg.fields.board.required')],
         unique      : [true, __('thg.fields.board.unique')],
         ref         : 'Board'
     },
     room  : {
-        type        : ObjectId,
-        required    : [true, __('thg.fields.room.required')],
-        unique      : [true, __('thg.fields.room.unique')],
+        type        : Schema.Types.ObjectId,
         ref         : 'Room'
     },
     name: {

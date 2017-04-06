@@ -24,8 +24,8 @@ let show = (req, res) => {
     let id = req.params.id
     
     Switch.findOne({_id : id})
-    .then((switch) => {
-        res.json(switch)
+    .then((switchh) => {
+        res.json(switchh)
     })
     .catch((err) => {
         response.errorHandler(res, err)
@@ -37,10 +37,10 @@ let show = (req, res) => {
  * @param {Object|Object} request & response
  */
 let create = (req, res) => {
-    let switch = new Switch(mapParams(req))
+    let switchh = new Switch(mapParams(req))
 
-    switch.save()
-    .then((switch) => {
+    switchh.save()
+    .then((switchh) => {
         response.successHandler(res, __('switch.created'))
     })
     .catch((err) => {
@@ -55,10 +55,10 @@ let create = (req, res) => {
 let update = (req, res) => {
     // Find Switch
     Switch.findOne({_id : req.params.id})
-    .then((switch) => {
+    .then((switchh) => {
         // Update Switch
-        switch.update(mapParams(req))
-        .then((switch) => {
+        switchh.update(mapParams(req))
+        .then((switchh) => {
             response.successHandler(res, __('switch.updated'))
         })
         .catch((err) => {
@@ -76,10 +76,10 @@ let update = (req, res) => {
  */
 let destroy = (req, res) => {
     Switch.findOne({_id : req.params.id})
-    .then((switch) => {
+    .then((switchh) => {
         // Delete Switch
-        switch.delete()
-        .then((switch) => {
+        switchh.delete()
+        .then((switchh) => {
             response.successHandler(res, __('switch.deleted'))
         })
         .catch((err) => {
@@ -97,10 +97,10 @@ let destroy = (req, res) => {
  */
 let restore = (req, res) => {
     Switch.findOne({_id : req.params.id})
-    .then((switch) => {
+    .then((switchh) => {
         // Restore Switch
-        switch.restore()
-        .then((switch) => {
+        switchh.restore()
+        .then((switchh) => {
             response.successHandler(res,  __('switch.restored'))
         })
         .catch((err) => {
@@ -119,19 +119,19 @@ let restore = (req, res) => {
  * @return {Object} Switch mapped
  */
 let mapParams = (req) => {
-    let switch = req.body || req.query
+    let switchh = req.body || req.query
 
     return {
-        "swich01"   : switch.swich01,
-        "swich02"   : switch.swich02,
-        "swich03"   : switch.swich03,
-        "swich04"   : switch.swich04,
-        "swich05"   : switch.swich05,
-        "swich06"   : switch.swich06,
-        "swich07"   : switch.swich07,
-        "swich08"   : switch.swich08,
-        "swich09"   : switch.swich09,
-        "swich10"   : switch.swich10
+        "swich01"   : switchh.swich01,
+        "swich02"   : switchh.swich02,
+        "swich03"   : switchh.swich03,
+        "swich04"   : switchh.swich04,
+        "swich05"   : switchh.swich05,
+        "swich06"   : switchh.swich06,
+        "swich07"   : switchh.swich07,
+        "swich08"   : switchh.swich08,
+        "swich09"   : switchh.swich09,
+        "swich10"   : switchh.swich10
     }
 }
 

@@ -19,6 +19,7 @@ router.use(function(req, res, next) {
 })
 
 /** adding auth middleware to router **/
+/*
 router.use(function(req, res, next) {
 
     // check header or url parameters or post parameters for token
@@ -32,13 +33,13 @@ router.use(function(req, res, next) {
     sessionHelper.checkAuth(token)
     .then(function(doc) {
         /** if user authenticated call next **/
-        next()
-    })
+        //next()
+    /*})
     .catch(function(err) {
         responseHelper.errorHandler(res,__('session.invalidSession'))
     })
 
-})
+})*/
 
 /** GET /users **/
 router.get('/', (req, res, next) => {

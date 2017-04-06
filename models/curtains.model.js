@@ -6,15 +6,13 @@ let Schema      = mongoose.Schema;
 /** Curtain Schema Declaration **/
 let curtainSchema = new Schema({
     board  : {
-        type        : ObjectId,
+        type        : Schema.Types.ObjectId,
         required    : [true, __('curtain.fields.board.required')],
         unique      : [true, __('curtain.fields.board.unique')],
         ref         : 'Board'
     },
     room  : {
-        type        : ObjectId,
-        required    : [true, __('curtain.fields.room.required')],
-        unique      : [true, __('curtain.fields.room.unique')],
+        type        : Schema.Types.ObjectId,
         ref         : 'Room'
     },
     name: {

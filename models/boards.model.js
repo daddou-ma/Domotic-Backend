@@ -1,12 +1,15 @@
 /** Includes **/
 let mongoose    = require('mongoose');
 let Schema      = mongoose.Schema;
-
+const Air   = require('./airs.model')
+const Curtain = require('./curtains.model')
+const Switch   = require('./switchs.model')
+const THG   = require('./thgs.model')
 
 /** Board Schema Declaration **/
 let boardSchema = new Schema({
-    _air: {
-        type        : Number,
+    air  : {
+        type        : Schema.Types.ObjectId,
         ref         : 'Air'
     },
     serial_number: {
@@ -61,6 +64,68 @@ boardSchema.pre('save', function(next) {
     next();
 });
 
+/** Action Done After Saving a Board **/
+boardSchema.post('save', function() {
+    
+    switch(this.type) {
+        case 'air':
+            let air = new Air({
+                "board" : this._id,
+                //"room"  : air.room,
+                "name"  : 'default name',
+                "level" : 1,
+                "mode"  : 2,
+                "degre" : 3
+            })
+            air.save()
+        break;
+        case 'curtain':
+            let curtain = new Curtain({
+                "board" : this._id,
+                //"room"  : air.room,
+                "name"  : 'default name',
+                "level" : 1
+            })
+            curtain.save()
+        break;
+        case 'switch':
+            let switchh = new Switch({
+                "board" : this._id,
+                //"room"  : air.room,
+                "name"  : 'default name',
+                "switch01" : true,
+                "switch02" : false,
+                "switch03" : true 
+            })
+            switchh.save()
+        break;
+        case 'thg':
+            let thg = new THG({
+                "board" : this._id,
+                //"room"  : air.room,
+                "name"  : 'default name',
+                "level" : 1,
+                "mode"  : 2,
+                "degre" : 3
+            })
+            thg.save()
+        break;
+    }
+});
+
+/** Board Plug Method **/
+boardSchema.methods.plug = function(callback) {
+    
+    this.plugged = true;
+    return this.save(callback);
+};
+
+/** Board Enable Method **/
+boardSchema.methods.unplug = function(callback) {
+    
+    this.plugged = false;
+    return this.save(callback);
+};
 
 /** Board Delelte Method **/
 boardSchema.methods.delete = function(callback) {

@@ -5,6 +5,7 @@ let mongoose    = require('mongoose')
 let bodyParser  = require('body-parser')
 let dotenv      = require('dotenv')
 let cookieParser = require('cookie-parser')
+let tcpServer	= require('./handler/tcp/tcp.handle')
 
 /** loading .ENV file and Configuration **/
 dotenv.config()
@@ -14,8 +15,11 @@ dotenv.config()
 let users       = require('./routes/users')
 let sessions    = require('./routes/sessions')
 let boards    	= require('./routes/boards')
-let airs    	= require('./routes/airs')
 let rooms   	= require('./routes/rooms')
+let airs    	= require('./routes/airs')
+let curtains	= require('./routes/curtains')
+let switchs    	= require('./routes/switchs')
+let thgs    	= require('./routes/thgs')
 
 /** Creating App Server **/
 let app = express()
@@ -63,8 +67,11 @@ app.use(cookieParser())
 app.use('/users',    users)
 app.use('/sessions', sessions)
 app.use('/boards', 	 boards)
-app.use('/airs', 	 airs)
 app.use('/rooms',	 rooms)
+app.use('/airs', 	 airs)
+app.use('/curtains', curtains)
+app.use('/switchs',	 switchs)
+app.use('/thgs',	 thgs)
 
 /** Export App & Server to use it in bin/www **/
 module.exports = {app: app, server: server}

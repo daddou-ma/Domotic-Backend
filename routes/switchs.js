@@ -1,6 +1,6 @@
 /** **/
 let express         = require('express')
-let boardController  = require('../controllers/boards.controller')
+let switchController  = require('../controllers/switchs.controller')
 let sessionHelper   = require('../helpers/sessions.helper')
 let responseHelper  = require('../helpers/responses.helper')/** **/
 
@@ -31,7 +31,7 @@ router.use(function(req, res, next) {
     // verifies secret and checks exp
     sessionHelper.checkAuth(token)
     .then(function(doc) {
-        /** if board authenticated call next **/
+        /** if switch authenticated call next **/
         next()
     })
     .catch(function(err) {
@@ -40,46 +40,40 @@ router.use(function(req, res, next) {
 
 })
 
-/** GET /boards **/
+/** GET /switchs **/
 router.get('/', (req, res, next) => {
     
-    boardController.index(req ,res)
+    switchController.index(req ,res)
 })
 
-/** GET /boards/id **/
+/** GET /switchs/id **/
 router.get('/:id', (req, res, next) => {
 
-    boardController.show(req ,res)
+    switchController.show(req ,res)
 })
 
-/** POST /boards/ **/
+/** POST /switchs/ **/
 router.post('/', (req, res, next) => {
 
-    boardController.create(req ,res)
+    switchController.create(req ,res)
 })
 
-/** PUT /boards/ **/
+/** PUT /switchs/ **/
 router.put('/:id', (req, res, next) => {
 
-    boardController.update(req ,res)
+    switchController.update(req ,res)
 })
 
-/** delete /boards/:id **/
+/** delete /switchs/:id **/
 router.delete('/:id', (req, res, next) => {
 
-    boardController.destroy(req ,res)
+    switchController.destroy(req ,res)
 })
 
-/** hard delete /boards/:id/hard **/
-router.delete('/:id/hard', (req, res, next) => {
-
-    boardController.remove(req ,res)
-})
-
-/** get /boards/:id/restore **/
+/** get /switchs/:id/restore **/
 router.get('/:id/restore', (req, res, next) => {
 
-    boardController.restore(req ,res)
+    switchController.restore(req ,res)
 })
 
 /** Export the module **/

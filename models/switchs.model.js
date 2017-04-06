@@ -6,15 +6,13 @@ let Schema      = mongoose.Schema;
 /** Switch Schema Declaration **/
 let switchSchema = new Schema({
     board  : {
-        type        : ObjectId,
+        type        : Schema.Types.ObjectId,
         required    : [true, __('switch.fields.board.required')],
         unique      : [true, __('switch.fields.board.unique')],
         ref         : 'Board'
     },
     room  : {
-        type        : ObjectId,
-        required    : [true, __('switch.fields.room.required')],
-        unique      : [true, __('switch.fields.room.unique')],
+        type        : Schema.Types.ObjectId,
         ref         : 'Room'
     },
     name: {

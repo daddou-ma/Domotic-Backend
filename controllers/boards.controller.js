@@ -8,7 +8,7 @@ let response    = require('../helpers/responses.helper')
  */
 let index = (req, res) => {
     Board.find()
-    .populate('airs')
+    .populate('air')
     .then((boards) => {
         res.json(boards)
     })
@@ -111,6 +111,21 @@ let destroy = (req, res) => {
 }
 
 /**
+ * Hard Delete Board by Id
+ * @param {Object|Object} request & response
+ */
+let remove = (req, res) => {
+    Board.findOne({_id : req.params.id}).remove()
+    .then((board) => {
+        // Delete Board
+        response.successHandler(res, __('haaaaa'))
+    })
+    .catch((err) => {
+        response.errorHandler(res, err)
+    })
+}
+
+/**
  * Restore a deleted Board by Id
  * @param {Object|Object} request & response
  */
@@ -154,5 +169,6 @@ module.exports = {
     create,
     update,
     destroy,
+    remove,
     restore
 }

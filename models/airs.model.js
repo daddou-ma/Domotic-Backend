@@ -7,13 +7,10 @@ let Schema      = mongoose.Schema;
 let airSchema = new Schema({
     board  : {
         type        : Schema.Types.ObjectId,
-        required    : [true, __('air.fields.board.required')],
-        unique      : [true, __('air.fields.board.unique')],
         ref         : 'Board'
     },
     room  : {
         type        : Schema.Types.ObjectId,
-        required    : [true, __('air.fields.room.required')],
         ref         : 'Room'
     },
     name: {
