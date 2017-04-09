@@ -23,26 +23,34 @@ let server = net.createServer(function(socket) {
 
 	let connect = function(data){
 		obj = JSON.parse(data.toString('utf8'))
-		//console.log(data.toString('utf8'))
+
 		if(!obj.serial_number) {
-			console.log('Unknown !')
 			return
 		}
+
 		Board.findOne({serial_number : obj.serial_number})
 	    .then((doc) => {
-	     
-	    	nodes[obj.serial_number] = new THGNode(socket, doc)
-	    	console.log('Unknown !22')
-	    	//socket.removeListener('data', connect)
-	    	nodes[obj.serial_number].setData({
-	    		temperature: 5,
-	    		humidity:6,
-	    		gaz:7,
-	    		light:8
-	    	})
+	    	if (nodes[obj.serial_number]) {
+	    		return
+	    	}
+	    	switch(obj.type) {
+	    		case 'air':
+		            nodes[obj.serial_number] = new AirNode(socket, doc)
+		        break;
+		        case 'curtain':
+		            //nodes[obj.serial_number] = new CurtainNode(socket, doc)
+		        break;
+		        case 'switch':
+		            //nodes[obj.serial_number] = new SwitchNode(socket, doc)
+		        break;
+		        case 'thg':
+		            nodes[obj.serial_number] = new THGNode(socket, doc)
+		        break;
+			}
+	    	
 	    })
 	    .catch((err) => {
-	    	console.log('Unknown !')
+
 	        let board = new Board({
 	        	serial_number	: obj.serial_number,
 	        	type			: obj.type,
@@ -51,20 +59,17 @@ let server = net.createServer(function(socket) {
 
 	        board.save()
 	        .then((board)=> {
-	        	nodes[obj.serial_number] = new THGNode(socket, board)
-		    	//socket.removeListener('data', connect)
-		    	nodes[obj.serial_number].setData({
-		    		temperature: 5,
-		    		humidity:6,
-		    		gaz:7,
-		    		light:8
-	    		})
+	        	nodes[obj.serial_number] = new THGNode(socket, board)		    	
 	        })
 	    })
+
+	    socket.removeListener('data', connect)
+
 	    return
 	}
 
 	socket.on('data', connect)
+
 	socket.on('end', ()=> {
 		console.log('Diconneta')
 	})

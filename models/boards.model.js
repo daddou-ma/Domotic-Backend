@@ -61,56 +61,79 @@ boardSchema.pre('save', function(next) {
         this.created_at = currentDate;   
     }
 
+    this.wasNew = this.isNew;
+
     next();
 });
 
+
+boardSchema.post('update', function() {
+    console.log('has been initialized from the db',this);
+});
 /** Action Done After Saving a Board **/
 boardSchema.post('save', function() {
     
+    if (!this.wasNew) {
+        return
+    }    
+
+    let nodeId = null
+
     switch(this.type) {
         case 'air':
             let air = new Air({
                 "board" : this._id,
-                //"room"  : air.room,
                 "name"  : 'default name',
                 "level" : 1,
                 "mode"  : 2,
-                "degre" : 3
+                "temperature" : 3
             })
+
             air.save()
+            nodeId = air._id
         break;
         case 'curtain':
             let curtain = new Curtain({
                 "board" : this._id,
-                //"room"  : air.room,
                 "name"  : 'default name',
                 "level" : 1
             })
             curtain.save()
+            nodeId = curtain._id
         break;
         case 'switch':
             let switchh = new Switch({
                 "board" : this._id,
-                //"room"  : air.room,
                 "name"  : 'default name',
                 "switch01" : true,
                 "switch02" : false,
-                "switch03" : true 
+                "switch03" : true,
+                "switch04" : false,
+                "switch05" : true,
+                "switch06" : false,
+                "switch07" : true,
+                "switch08" : false,
+                "switch09" : true,
+                "switch10" : false
             })
             switchh.save()
+            nodeId = switchh._id
         break;
         case 'thg':
             let thg = new THG({
                 "board" : this._id,
-                //"room"  : air.room,
                 "name"  : 'default name',
                 "level" : 1,
                 "mode"  : 2,
                 "degre" : 3
             })
             thg.save()
+            nodeId = thg._id
         break;
     }
+
+    this.air = nodeId
+    this.save()
 });
 
 /** Board Plug Method **/
