@@ -16,7 +16,6 @@ let server = net.createServer(function(socket) {
 	socket.write('Salammm dfsdg \r\n')
 	socket.pipe(socket)
 	console.log('conenctt')
-    socket.setKeepAlive(true);
 
 	setInterval(() => {
 		
@@ -79,4 +78,4 @@ let server = net.createServer(function(socket) {
 	})
 })
 
-server.listen(5000, '192.168.1.2')
+server.listen(5000, '10.1.66.43')
