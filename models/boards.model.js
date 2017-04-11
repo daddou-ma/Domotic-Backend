@@ -8,7 +8,7 @@ const THG   = require('./thgs.model')
 
 /** Board Schema Declaration **/
 let boardSchema = new Schema({
-    air  : {
+    node  : {
         type        : Schema.Types.ObjectId,
         ref         : 'Air'
     },
@@ -19,11 +19,11 @@ let boardSchema = new Schema({
     },
     ipv4: {
         type        : String,
-        required    : [true, __('board.fields.ipv4required')]
+        required    : [true, __('board.fields.ipv4.required')]
     },
     type: {
         type        : String,
-        enum        : ['air', 'curtain', 'swistch', 'thg', 'remote'],
+        enum        : ['air', 'curtain', 'switch', 'thg', 'remote'],
         required    : [true, __('board.fields.type.required')]
     },
     plugged: {
@@ -86,6 +86,7 @@ boardSchema.post('save', function() {
                 "name"  : 'default name',
                 "level" : 1,
                 "mode"  : 2,
+                "type"  : "Air",
                 "temperature" : 3
             })
 
@@ -96,6 +97,7 @@ boardSchema.post('save', function() {
             let curtain = new Curtain({
                 "board" : this._id,
                 "name"  : 'default name',
+                "type"  : "Curtain",
                 "level" : 1
             })
             curtain.save()
@@ -105,6 +107,7 @@ boardSchema.post('save', function() {
             let switchh = new Switch({
                 "board" : this._id,
                 "name"  : 'default name',
+                "type"  : "Switch",
                 "switch01" : true,
                 "switch02" : false,
                 "switch03" : true,
@@ -117,12 +120,19 @@ boardSchema.post('save', function() {
                 "switch10" : false
             })
             switchh.save()
+            .then((doc) => {
+                console.log(doc)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
             nodeId = switchh._id
         break;
         case 'thg':
             let thg = new THG({
                 "board" : this._id,
                 "name"  : 'default name',
+                "type"  : "THG",
                 "level" : 1,
                 "mode"  : 2,
                 "degre" : 3

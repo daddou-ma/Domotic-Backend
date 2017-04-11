@@ -8,7 +8,7 @@ let response    = require('../helpers/responses.helper')
  */
 let index = (req, res) => {
     Room.find()
-    .populate('board')
+    .populate('nodes')
     .then((rooms) => {
         res.json(rooms)
     })

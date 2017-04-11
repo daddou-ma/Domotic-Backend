@@ -9,6 +9,7 @@ let response    = require('../helpers/responses.helper')
 let index = (req, res) => {
     Air.find()
     .populate('board')
+    .populate('room')
     .then((airs) => {
         res.json(airs)
     })

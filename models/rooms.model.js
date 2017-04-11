@@ -13,6 +13,10 @@ let roomSchema = new Schema({
         type        : String,
         default     : '#FEF8F9'
     },
+    nodes : [{
+        type: Schema.Types.ObjectId,
+        ref: 'Node'
+    }],
     deleted: {
         type        : Boolean,
         default     : false

@@ -8,6 +8,7 @@ let response    = require('../helpers/responses.helper')
  */
 let index = (req, res) => {
     THG.find()
+    .populate('board')
     .then((thgs) => {
         res.json(thgs)
     })
@@ -24,6 +25,7 @@ let show = (req, res) => {
     let id = req.params.id
     
     THG.findOne({_id : id})
+    .populate('board')
     .then((thg) => {
         res.json(thg)
     })

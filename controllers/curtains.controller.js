@@ -8,6 +8,7 @@ let response    = require('../helpers/responses.helper')
  */
 let index = (req, res) => {
     Curtain.find()
+    .populate('board')
     .then((curtains) => {
         res.json(curtains)
     })
@@ -24,6 +25,7 @@ let show = (req, res) => {
     let id = req.params.id
     
     Curtain.findOne({_id : id})
+    .populate('board')
     .then((curtain) => {
         res.json(curtain)
     })

@@ -8,7 +8,7 @@ let response    = require('../helpers/responses.helper')
  */
 let index = (req, res) => {
     Board.find()
-    .populate('air')
+    .populate('node')
     .then((boards) => {
         res.json(boards)
     })
@@ -25,6 +25,7 @@ let show = (req, res) => {
     let id = req.params.id
     
     Board.findOne({_id : id})
+    .populate('node')
     .then((board) => {
         res.json(board)
     })

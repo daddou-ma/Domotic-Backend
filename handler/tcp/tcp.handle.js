@@ -2,7 +2,9 @@ const net = require('net')
 const Board	= require('../../models/boards.model')
 const Node 	= require('./node')
 const THGNode 	= require('./thg.node')
-
+const AirNode 	= require('./air.node')
+const CurtainNode 	= require('./curtain.node')
+const SwitchNode 	= require('./switch.node')
 
 let nodes = {}
 
@@ -22,7 +24,9 @@ let server = net.createServer(function(socket) {
 	}, 2000)
 
 	let connect = function(data){
+		console.log(data.toString('utf8'))
 		obj = JSON.parse(data.toString('utf8'))
+
 
 		if(!obj.serial_number) {
 			return
@@ -38,10 +42,10 @@ let server = net.createServer(function(socket) {
 		            nodes[obj.serial_number] = new AirNode(socket, doc)
 		        break;
 		        case 'curtain':
-		            //nodes[obj.serial_number] = new CurtainNode(socket, doc)
+		            nodes[obj.serial_number] = new CurtainNode(socket, doc)
 		        break;
 		        case 'switch':
-		            //nodes[obj.serial_number] = new SwitchNode(socket, doc)
+		            nodes[obj.serial_number] = new SwitchNode(socket, doc)
 		        break;
 		        case 'thg':
 		            nodes[obj.serial_number] = new THGNode(socket, doc)
