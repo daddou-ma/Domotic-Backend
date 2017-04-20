@@ -14,7 +14,6 @@ class THGNode extends Node {
 
 		THG.findOne({board : this.board._id+""})
 	    .then((doc) => {
-	    	console.log(doc)
 	    	self.thg = doc
 	    })
 	    .catch((err) => {
@@ -23,6 +22,7 @@ class THGNode extends Node {
 
 	    this.socket.on('data', (data) => {
     		let obj = JSON.parse(data.toString('utf8'))
+    		console.log(obj)
 			self.updateData(obj)
 		})
 	}

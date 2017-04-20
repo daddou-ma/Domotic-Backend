@@ -11,7 +11,7 @@ let response    = require('../helpers/responses.helper')
  * @param {Object|Object} request & response
  */
 let create = (req, res) => {
-    
+
     // Getting username & password from the request
     let username = req.body.username || req.query.username
     let password = req.body.password || req.query.password

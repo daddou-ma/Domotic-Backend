@@ -38,7 +38,7 @@ let nodeSchema = new Schema({
     deleted_at: {
         type        : Date
     }
-});
+})
 
 // TODO : Relations
 
@@ -47,21 +47,26 @@ nodeSchema.post('save', function() {
     if(this.room) {
         Room.findOne({_id: this.room})
         .then((room) => {
-            room.nodes.push(this)
-            room.save()
+            if (room.nodes.indexOf(node._id) < 0) {
+                room.nodes.push(node)
+                room.save()
+            }
         })
     }
 })
 
 /** Action Done After Update a Node **/
 nodeSchema.post('update', function() {
+    console.log(this._update.$set)
     if(this._update.$set.room) {
         Room.findOne({_id : this._update.$set.room})
         .then((room) => {
             Node.findOne({_id: this._conditions._id})
             .then((node) => {
-                room.nodes.push(node)
-                room.save()
+                if (room.nodes.indexOf(node._id) < 0) {
+                    room.nodes.push(node)
+                    room.save()
+                }
             })
         })
     }
@@ -78,7 +83,7 @@ nodeSchema.pre('save', function(next) {
     }
 
     next();
-});
+})
 
 
 /** Node Delelte Method **/
@@ -88,7 +93,7 @@ nodeSchema.methods.delete = function(callback) {
     this.deleted = true;
     this.deleted_at = currentDate;
     return this.save(callback);
-};
+}
 
 
 /** Node Restore Method **/
@@ -96,14 +101,13 @@ nodeSchema.methods.restore = function(callback) {
     this.deleted = false;
     this.deleted_at = undefined;
     return this.save(callback);
-};
+}
 
 /** Overrinding toJSON to hide fields **/
 nodeSchema.methods.toJSON = function() {
     var obj = this.toObject()
     return obj
 }
-
 
 /** Node Model **/
 let Node = mongoose.model('Node', nodeSchema)

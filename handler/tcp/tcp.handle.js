@@ -14,19 +14,13 @@ let server = net.createServer(function(socket) {
 	let board 			= undefined
 
 	socket.write('Salammm dfsdg \r\n')
-	socket.pipe(socket)
 	console.log('conenctt')
 
-	setInterval(() => {
-		
-		//socket.write('{"air" : "15","degree" : "16" ,"level" : "17"}' + '\r')
-	}, 2000)
-
 	let connect = function(data){
-		console.log(data.toString('utf8'))
+		//console.log(data.toString('utf8'))
 		obj = JSON.parse(data.toString('utf8'))
 
-
+		console.log('h------------------------------------------------')
 		if(!obj.serial_number) {
 			return
 		}
@@ -53,7 +47,6 @@ let server = net.createServer(function(socket) {
 	    	
 	    })
 	    .catch((err) => {
-
 	        let board = new Board({
 	        	serial_number	: obj.serial_number,
 	        	type			: obj.type,
@@ -78,4 +71,4 @@ let server = net.createServer(function(socket) {
 	})
 })
 
-server.listen(5000, '10.1.66.43')
+server.listen(5000, '192.168.1.2')

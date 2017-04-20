@@ -56,6 +56,7 @@ let create = (req, res) => {
  */
 let update = (req, res) => {
     // Find THG
+    console.log(mapParams(req))
     THG.findOne({_id : req.params.id})
     .then((thg) => {
         // Update THG
@@ -139,9 +140,11 @@ let mapParams = (req) => {
     let thg = req.body || req.query
 
     return {
-        "level"  : thg.level,
-        "mode"   : thg.mode,
-        "degre"  : thg.degre
+        room          : thg.room,
+        temperature   : thg.temperature,
+        humidity      : thg.humidity,
+        gaz           : thg.gaz,
+        light         : thg.light
     }
 }
 
