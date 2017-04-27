@@ -14,23 +14,27 @@ class AirNode extends Node {
 
 		Air.findOne({board : this.board._id+""})
 	    .then((doc) => {
-	    	console.log(doc)
 	    	self.air = doc
 	    })
 	    .catch((err) => {
 	        console.log('ma tla9itouch')
 	    })
-
-	   	setInterval(function() {
-	   		this.socket.write(JSON.stringify({
-				degree		: 20,
-				level		: 2,
-				mode 		: 3
-			}))
-	   	}, 2000)
 	}
 
 	sync() {
+		let self = this
+
+		Air.findOne({board : this.board._id+""})
+	    .then((doc) => {
+	    	self.air = doc
+	    	self.send() 	
+	    })
+	    .catch((err) => {
+	        console.log('ma tla9itouch')
+	    })
+	}
+
+	send() {
 		this.socket.write(JSON.stringify({
 			degree		: this.air.degree,
 			level		: this.air.level,

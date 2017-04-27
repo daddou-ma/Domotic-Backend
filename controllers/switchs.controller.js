@@ -9,6 +9,8 @@ let response    = require('../helpers/responses.helper')
 let index = (req, res) => {
     Switch.find()
     .populate('board')
+    .populate('room')
+    .populate('histories')
     .then((switchs) => {
         res.json(switchs)
     })
@@ -26,6 +28,8 @@ let show = (req, res) => {
     
     Switch.findOne({_id : id})
     .populate('board')
+    .populate('room')
+    .populate('histories')
     .then((switchh) => {
         res.json(switchh)
     })

@@ -10,6 +10,7 @@ let index = (req, res) => {
     Air.find()
     .populate('board')
     .populate('room')
+    .populate('histories')
     .then((airs) => {
         res.json(airs)
     })
@@ -27,6 +28,8 @@ let show = (req, res) => {
     
     Air.findOne({_id : id})
     .populate('board')
+    .populate('room')
+    .populate('histories')
     .then((air) => {
         res.json(air)
     })

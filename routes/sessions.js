@@ -15,6 +15,12 @@ router.post('/auth', (req, res, next) => {
     sessionController.create(req ,res)
 })
 
+/** POST /auth **/
+router.post('/check', (req, res, next) => {
+
+    sessionController.check(req ,res)
+})
+
 /** DELETE /logout **/
 router.delete('/logout', (req, res, next) => {
 

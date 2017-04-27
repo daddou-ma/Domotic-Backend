@@ -46,24 +46,6 @@ let create = (req, res) => {
         response.successHandler(res, __('board.created'))
     })
     .catch((err) => {
-        if ( err && err.code === 11000 ) {
-            err = {
-                errors: {
-                    email: {
-                        "message": __('board.fields.email.unique'),
-                        "name": "ValidatorError",
-                        "properties": {
-                            "type": "required",
-                            "message": __('board.fields.email.unique'),
-                            "path": "email"
-                        },
-                        "kind": "unique",
-                        "path": "email"
-                    }
-                },
-                name : "ValidationError"
-            }
-        }
         response.errorHandler(res, err)
     })
 }

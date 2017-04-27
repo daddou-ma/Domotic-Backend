@@ -10,6 +10,7 @@ let index = (req, res) => {
     Node.find()
     .populate('board')
     .populate('room')
+    .populate('histories')
     .then((nodes) => {
         res.json(nodes)
     })
@@ -27,6 +28,8 @@ let show = (req, res) => {
     
     Node.findOne({_id : id})
     .populate('board')
+    .populate('room')
+    .populate('histories')
     .then((node) => {
         res.json(node)
     })

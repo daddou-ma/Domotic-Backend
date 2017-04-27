@@ -43,30 +43,6 @@ let scheduleSchema = new Schema({
 /* Advanced hooks */
 scheduleSchema.plugin(mongooseAdvancedHook)
 
-/** Action Done After Saving a Schedule **/
-scheduleSchema.post('save', function() {
-    if(this.room) {
-        Room.findOne({_id: this.room})
-        .then((room) => {
-            room.schedules.push(this)
-            room.save()
-        })
-    }
-})
-
-/** Action Done After Update a Schedule **/
-scheduleSchema.post('update', function() {
-    if(this._update.$set.room) {
-        Room.findOne({_id : this._update.$set.room})
-        .then((room) => {
-            Schedule.findOne({_id: this._conditions._id})
-            .then((schedule) => {
-                room.schedules.push(schedule)
-                room.save()
-            })
-        })
-    }
-})
 
 /** Action Done Before Saving a Schedule **/
 scheduleSchema.pre('save', function(next) {

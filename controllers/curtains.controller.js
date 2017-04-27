@@ -9,6 +9,8 @@ let response    = require('../helpers/responses.helper')
 let index = (req, res) => {
     Curtain.find()
     .populate('board')
+    .populate('room')
+    .populate('histories')
     .then((curtains) => {
         res.json(curtains)
     })
@@ -26,6 +28,8 @@ let show = (req, res) => {
     
     Curtain.findOne({_id : id})
     .populate('board')
+    .populate('room')
+    .populate('histories')
     .then((curtain) => {
         res.json(curtain)
     })

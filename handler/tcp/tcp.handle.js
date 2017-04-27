@@ -8,7 +8,7 @@ const SwitchNode 	= require('./switch.node')
 
 let nodes = {}
 
-global.h_nodes = nodes
+global.tcp_nodes = nodes
 
 let server = net.createServer(function(socket) {
 	let ip 				= socket.remoteAddress
@@ -67,4 +67,4 @@ let server = net.createServer(function(socket) {
 })
 
 //server.listen(5000, 'local.domotique.dz')
-server.listen(5000, '192.168.1.3')
+server.listen(5000, '10.1.66.43')

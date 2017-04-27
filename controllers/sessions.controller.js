@@ -1,15 +1,37 @@
 /** Includes **/
 let User        = require('../models/users.model')
 let Auth        = require('../helpers/sessions.helper').auth
+let checkAuth        = require('../helpers/sessions.helper').checkAuth
 let Logout      = require('../helpers/sessions.helper').logout
 
 let response    = require('../helpers/responses.helper')
 
 
 /**
- * Create a session
+ * Check a session
  * @param {Object|Object} request & response
  */
+
+let check = (req, res) => {
+
+    // Getting username & password from the request
+    let  token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies['_token']
+    
+    if (!token) {
+        response.errorHandler(res, __('session.noSession')) 
+    }
+    
+    // verifies secret and checks exp
+    checkAuth(token)
+    .then(function(doc) {
+        response.successHandler(res,__('session.validSession'))
+    })
+    .catch(function(err) {
+        response.errorHandler(res,__('session.invalidSession'))
+    })
+}
+
+
 let create = (req, res) => {
 
     // Getting username & password from the request
@@ -54,5 +76,6 @@ let destroy = (req, res) => {
 
 module.exports = {
     create,
+    check,
     destroy
 }

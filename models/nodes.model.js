@@ -20,6 +20,10 @@ let nodeSchema = new Schema({
         match       : /[a-zA-Z]+$/,
         required    : [true, __('node.fields.name.required')]
     },
+    histories : [{
+        type        : Schema.Types.ObjectId,
+        ref         : 'History'
+    }],
     type: {
         type        : String,
         required    : [true, __('node.fields.type.required')],
@@ -49,26 +53,62 @@ nodeSchema.virtual('user')
 .get(function () {
     return this._user;
 })
-.set(function (html) {
+.set(function (user) {
     this._user = user;
 });
 
 // TODO : Relations
 
 /** Action Done After Saving a Node **/
-nodeSchema.post('save', function() {
-    if(this.room) {
-        Room.findOne({_id: this.room})
-        .then((room) => {
-            if (room.nodes.indexOf(node._id) < 0) {
-                room.nodes.push(node)
-                room.save()
-            }
-        })
+nodeSchema.postCreate((next, doc, query) => {
+    if(!doc.room) {
+        return
     }
+
+    Room.findOne({_id: doc.room})
+    .then((room) => {
+        let index = room.nodes.indexOf(doc._id)
+
+        if (index < 0) {
+            room.nodes.push(doc)
+            room.save()
+        }
+    })
 })
 
+nodeSchema.preUpdate((next, doc, query) => {
+    if(!doc.room ) {
+        return
+    }
+    
+    Room.findOne({_id: doc.room})
+    .then((room) => {
+        let index = room.nodes.indexOf(doc._id)
+
+        if (index < 0) {
+            room.nodes.splice(index, 1);
+            room.save()
+        }
+    })
+})
+
+nodeSchema.postUpdate((next, doc, query) => {
+    if(!doc.room) {
+        return
+    }
+
+    Room.findOne({_id: this.room})
+    .then((room) => {
+        let index = room.nodes.indexOf(doc._id)
+
+        if (index < 0) {
+            room.nodes.push(node)
+            room.save()
+        }
+    })
+})
 /** Action Done After Update a Node **/
+/*
 nodeSchema.post('update', function() {
     console.log(this._update.$set)
     if(this._update.$set.room) {
@@ -84,7 +124,7 @@ nodeSchema.post('update', function() {
         })
     }
 })
-
+*/
 /** Action Done Before Saving a Node **/
 nodeSchema.pre('save', function(next) {
 

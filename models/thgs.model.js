@@ -29,6 +29,7 @@ THGSchema.plugin(mongooseAdvancedHook)
 
 THGSchema.postUpdate(function(next, doc, query) {
     let history = new THGHistory({
+        node        : doc._id,
         temperature : doc.temperature,
         humidity    : doc.humidity,
         gaz         : doc.gaz,
@@ -36,11 +37,11 @@ THGSchema.postUpdate(function(next, doc, query) {
         type        : 'THGHistory'
     })
     history.save()
-    .then((doc)=> {
-        console.log(doc)
+    .then((history)=> {
+        doc.histories.push(history)
     })
-    .catch((doc)=> {
-        console.log(doc)
+    .catch((err)=> {
+        console.log(err)
     })
     next()
 })
