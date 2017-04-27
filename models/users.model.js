@@ -1,6 +1,8 @@
 /** Includes **/
-let mongoose    = require('mongoose');
-let Schema      = mongoose.Schema;
+const mongoose    = require('mongoose');
+const Schema      = mongoose.Schema;
+
+const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
 
 
 /** User Schema Declaration **/
@@ -45,11 +47,11 @@ let userSchema = new Schema({
     }
 });
 
-// TODO : Relations
+/* Advanced hooks */
+userSchema.plugin(mongooseAdvancedHook)
 
 /** Action Done Before Saving a User **/
-userSchema.pre('save', function(next) {
-    
+userSchema.preUpdate(function(next, doc, query) {
     let currentDate = new Date();
     this.updated_at = currentDate;
 
@@ -57,8 +59,8 @@ userSchema.pre('save', function(next) {
         this.created_at = currentDate;   
     }
 
-    next();
-});
+    next()
+})
 
 
 /** User Delelte Method **/

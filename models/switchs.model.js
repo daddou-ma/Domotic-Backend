@@ -1,10 +1,17 @@
 /** Includes **/
-let mongoose    = require('mongoose');
-let Schema      = mongoose.Schema;
-let Node        = require('./node.model')
+const mongoose    = require('mongoose');
+const Schema      = mongoose.Schema;
+const Node        = require('./nodes.model')
+const Board       = require('./boards.model')
+const SwitchHistory = require('./histories/switch-histories.model')
+
+const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
 
 /** Switch Schema Declaration **/
 let SwitchSchema = new Schema({
+    user: {
+        type        : Schema.Types
+    },
     switch01: {
         type        : Boolean,
         default     : false
@@ -47,47 +54,50 @@ let SwitchSchema = new Schema({
     }
 })
 
-SwitchSchema.post('save', function() {
+SwitchSchema.plugin(mongooseAdvancedHook)
+
+SwitchSchema.postUpdate(function(next, doc, query) {
     let history = new THGHistory({
-        switch01    : this.switch01,
-        switch02    : this.switch02,
-        switch03    : this.switch03,
-        switch04    : this.switch04,
-        switch05    : this.switch05,
-        switch06    : this.switch06,
-        switch07    : this.switch07,
-        switch08    : this.switch08,
-        switch09    : this.switch09,
-        switch10    : this.switch10,
+        switch01    : doc.switch01,
+        switch02    : doc.switch02,
+        switch03    : doc.switch03,
+        switch04    : doc.switch04,
+        switch05    : doc.switch05,
+        switch06    : doc.switch06,
+        switch07    : doc.switch07,
+        switch08    : doc.switch08,
+        switch09    : doc.switch09,
+        switch10    : doc.switch10,
+        user        : this._user,
         type        : 'SwitchHistory'
     })
     history.save()
-})
-
-
-SwitchSchema.post('update', function() {
-
-    Switch.findOne({_id: this._conditions._id})
-    .then((thg) => {
-        let history = new THGHistory({
-            switch01    : this.switch01,
-            switch02    : this.switch02,
-            switch03    : this.switch03,
-            switch04    : this.switch04,
-            switch05    : this.switch05,
-            switch06    : this.switch06,
-            switch07    : this.switch07,
-            switch08    : this.switch08,
-            switch09    : this.switch09,
-            switch10    : this.switch10,
-            type        : 'SwitchHistory'
-        })
-        history.save()
+    .then((doc)=> {
+        console.log(doc)
     })
+    .catch((doc)=> {
+        console.log(doc)
+    })
+    next()
 })
+
+SwitchSchema.postUpdate(function(next, doc, query) {
+    Board.findOne({_id: doc.board})
+    .then((doc)=> {
+        console.log(doc)
+        if ( tcp_nodes[doc.serial_number]) {
+            tcp_nodes[doc.serial_number].sync()
+        }
+    })
+    .catch((err)=> {
+        console.log(err)
+    })
+    
+    next()
+})
+
 
 let Switch = Node.discriminator('Switch', SwitchSchema, {discriminatorKey: 'type'});
-
 
 /** Export The Switch Model **/
 module.exports = Switch

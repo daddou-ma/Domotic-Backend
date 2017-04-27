@@ -1,17 +1,15 @@
 /** Includes **/
-let mongoose    = require('mongoose');
-let Schema      = mongoose.Schema;
-let Room        = require('./rooms.model')
+const mongoose    = require('mongoose');
+const Schema      = mongoose.Schema;
+const Room        = require('./rooms.model')
+
+const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
 
 /** History Schema Declaration **/
 let historySchema = new Schema({
     node  : {
         type        : Schema.Types.ObjectId,
         ref         : 'Node'
-    },
-    user  : {
-        type        : Schema.Types.ObjectId,
-        ref         : 'User'
     },
     type: {
         type        : String,
@@ -35,7 +33,8 @@ let historySchema = new Schema({
     }
 });
 
-// TODO : Relations
+/* Advanced hooks */
+historySchema.plugin(mongooseAdvancedHook)
 
 /** Action Done After Saving a History **/
 historySchema.post('save', function() {

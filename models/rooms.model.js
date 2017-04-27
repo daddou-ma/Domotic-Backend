@@ -1,7 +1,9 @@
 /** Includes **/
-let mongoose    = require('mongoose');
-let Schema      = mongoose.Schema;
+const mongoose    = require('mongoose')
+const Schema      = mongoose.Schema
 
+
+const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
 
 /** Room Schema Declaration **/
 let roomSchema = new Schema({
@@ -32,39 +34,39 @@ let roomSchema = new Schema({
     deleted_at: {
         type        : Date
     }
-});
+})
 
-// TODO : Relations
+/* Advanced hooks */
+roomSchema.plugin(mongooseAdvancedHook)
 
 /** Action Done Before Saving a Room **/
-roomSchema.pre('save', function(next) {
-    
-    let currentDate = new Date();
-    this.updated_at = currentDate;
+roomSchema.postUpdate(function(next, doc, query) {
+    let currentDate = new Date()
+    this.updated_at = currentDate
 
     if (!this.created_at) {
-        this.created_at = currentDate;   
+        this.created_at = currentDate
     }
 
     next();
-});
+})
 
 
 /** Room Delelte Method **/
 roomSchema.methods.delete = function(callback) {
-    let currentDate = new Date();
+    let currentDate = new Date()
     
-    this.deleted = true;
-    this.deleted_at = currentDate;
-    return this.save(callback);
-};
+    this.deleted = true
+    this.deleted_at = currentDate
+    return this.save(callback)
+}
 
 
 /** Room Restore Method **/
 roomSchema.methods.restore = function(callback) {
     this.deleted = false;
-    this.deleted_at = undefined;
-    return this.save(callback);
+    this.deleted_at = undefined
+    return this.save(callback)
 };
 
 /** Overrinding toJSON to hide fields **/
@@ -75,7 +77,7 @@ roomSchema.methods.toJSON = function() {
 
 
 /** Room Model **/
-let Room = mongoose.model('Room', roomSchema);
+let Room = mongoose.model('Room', roomSchema)
 
 
 /** Export The Room Model **/

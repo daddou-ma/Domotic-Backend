@@ -4,12 +4,17 @@ class Node {
 		this.board 	= board
 		this.type	= board.type
 
-		/*board.plug()
+		board.plug()
 
+		let disconnect = () => {
+			console.log(`NODE [${socket.remoteAddress} | ${obj.type}] : DISCONNECTED from [${obj.serial_number}]`)
+			board.unplug()
+		}
 
-		this.socket.on('end', function () {
-		    board.unplug()
-		})*/
+		this.socket.on('end'	, disconnect)
+		this.socket.on('close'	, disconnect)
+		this.socket.on('error'	, disconnect)
+		this.socket.on('timeout', disconnect)
 	}
 
 }

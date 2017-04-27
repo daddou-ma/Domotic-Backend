@@ -124,24 +124,25 @@ let mapParams = (req) => {
     let switchh = req.body || req.query
 
     return {
-        "swich01"   : switchh.swich01,
-        "swich02"   : switchh.swich02,
-        "swich03"   : switchh.swich03,
-        "swich04"   : switchh.swich04,
-        "swich05"   : switchh.swich05,
-        "swich06"   : switchh.swich06,
-        "swich07"   : switchh.swich07,
-        "swich08"   : switchh.swich08,
-        "swich09"   : switchh.swich09,
-        "swich10"   : switchh.swich10
+        room       : switchh.room,
+        switch01   : switchh.swich01,
+        switch02   : switchh.swich02,
+        switch03   : switchh.swich03,
+        switch04   : switchh.swich04,
+        switch05   : switchh.swich05,
+        switch06   : switchh.swich06,
+        switch07   : switchh.swich07,
+        switch08   : switchh.swich08,
+        switch09   : switchh.swich09,
+        switch10   : switchh.swich10
     }
 }
 
 module.exports = {
     index,
     show,
-    create,
+    //create,
     update,
-    destroy,
-    restore
+    //destroy,
+    //restore
 }

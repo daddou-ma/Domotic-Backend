@@ -151,9 +151,9 @@ let mapParams = (req) => {
 module.exports = {
     index,
     show,
-    create,
+    //create,
     update,
-    destroy,
-    remove,
-    restore
+    //destroy,
+    //remove,
+    //restore
 }

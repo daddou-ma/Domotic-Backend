@@ -1,44 +1,15 @@
 /** **/
-let express         = require('express')
-let switchController  = require('../controllers/switchs.controller')
-let sessionHelper   = require('../helpers/sessions.helper')
-let responseHelper  = require('../helpers/responses.helper')/** **/
-
-let router          = express.Router()
+const express         = require('express')
+const switchController  = require('../controllers/switchs.controller')
+const langMiddleware  = require('../middlewares/lang')
+const authMiddleware  = require('../middlewares/auth')
+const router          = express.Router()
 
 /** adding Language middleware to router **/
-router.use(function(req, res, next) {
-
-    // check header or url parameters or post parameters for lang
-    let language = req.body.lang || req.query.lang || req.headers['lang'] || req.cookies['lang'] || 'en'
-    
-    res.cookie('lang', language , { maxAge: process.env.TOKEN_TIMEOUT});
-    setLocale(language)
-    
-    next();
-})
+router.use(langMiddleware.lang)
 
 /** adding auth middleware to router **/
-router.use(function(req, res, next) {
-
-    // check header or url parameters or post parameters for token
-    let  token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies['_token']
-    
-    if (!token) {
-        responseHelper.errorHandler(res, __('session.noSession')) 
-    }
-    
-    // verifies secret and checks exp
-    sessionHelper.checkAuth(token)
-    .then(function(doc) {
-        /** if switch authenticated call next **/
-        next()
-    })
-    .catch(function(err) {
-        responseHelper.errorHandler(res,__('session.invalidSession'))
-    })
-
-})
+router.use(authMiddleware.auth)
 
 /** GET /switchs **/
 router.get('/', (req, res, next) => {

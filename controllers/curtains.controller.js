@@ -124,15 +124,16 @@ let mapParams = (req) => {
     let curtain = req.body || req.query
 
     return {
-        "level"  : curtain.level,
+        room   : curatin.room,
+        level  : curtain.level,
     }
 }
 
 module.exports = {
     index,
     show,
-    create,
+    //create,
     update,
-    destroy,
-    restore
+    //destroy,
+    //restore
 }

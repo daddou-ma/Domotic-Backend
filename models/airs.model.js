@@ -1,7 +1,10 @@
 /** Includes **/
-let mongoose    = require('mongoose');
-let Schema      = mongoose.Schema;
-let Node        = require('./node.model')
+const mongoose    = require('mongoose');
+const Schema      = mongoose.Schema;
+const Node        = require('./nodes.model')
+const Board       = require('./boards.model')
+const AirHistory  = require('./histories/air-histories.model')
+const mongooseAdvancedHook    = require('mongoose-advanced-hooks')
 
 /** Air Schema Declaration **/
 let AirSchema = new Schema({
@@ -19,36 +22,45 @@ let AirSchema = new Schema({
     }
 })
 
-AirSchema.post('save', function() {
+/* Advanced hooks */
+AirSchema.plugin(mongooseAdvancedHook)
+
+AirSchema.postUpdate(function(next, doc, query) {
+    console.log('preee update')
     let history = new AirHistory({
-        temperature : this.temperature,
-        level       : this.level,
-        mode        : this.mode,
-        degre       : this.degre,
+        temperature : doc.temperature,
+        level       : doc.level,
+        mode        : doc.mode,
+        degre       : doc.degre,
         type        : 'AirHistory'
     })
     history.save()
+    .then((doc)=> {
+        console.log(doc)
+    })
+    .catch((doc)=> {
+        console.log(doc)
+    })
+    next()
 })
 
-
-AirSchema.post('update', function() {
-
-    Curtain.findOne({_id: this._conditions._id})
-    .then((thg) => {
-        let history = new CurtainHistory({
-            temperature : this.temperature,
-            level       : this.level,
-            mode        : this.mode,
-            degre       : this.degre,
-            type        : 'AirHistory'
-        })
-        history.save()
+AirSchema.postUpdate(function(next, doc, query) {
+    Board.findOne({_id: doc.board})
+    .then((doc)=> {
+        console.log(doc)
+        if ( tcp_nodes[doc.serial_number]) {
+            tcp_nodes[doc.serial_number].sync()
+        }
     })
+    .catch((err)=> {
+        console.log(err)
+    })
+    
+    next()
 })
 
 
 let Air = Node.discriminator('Air', AirSchema, {discriminatorKey : 'type'});
-
 
 /** Export The Air Model **/
 module.exports = Air

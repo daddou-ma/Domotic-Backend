@@ -140,9 +140,9 @@ let mapParams = (req) => {
     let user = req.body || req.query
 
     return {
-        "name"      : user.name,
-        "email"     : user.email,
-        "password"  : user.password
+        name      : user.name,
+        email     : user.email,
+        password  : user.password
     }
 }
 

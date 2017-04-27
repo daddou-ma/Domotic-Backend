@@ -1,10 +1,16 @@
 /** Includes **/
-let mongoose    = require('mongoose');
-let Schema      = mongoose.Schema;
-let History        = require('./history.model')
+const mongoose    = require('mongoose');
+const Schema      = mongoose.Schema;
+const History        = require('./history.model')
+
+const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
 
 /** SwitchHistory Schema Declaration **/
 let SwitchHistorySchema = new Schema({
+    user  : {
+        type        : Schema.Types.ObjectId,
+        ref         : 'User'
+    },
     switch01: {
         type        : Boolean,
         default     : false
@@ -46,6 +52,9 @@ let SwitchHistorySchema = new Schema({
         default     : false
     }
 })
+
+/* Advanced hooks */
+SwitchHistorySchema.plugin(mongooseAdvancedHook)
 
 let SwitchHistory = History.discriminator('SwitchHistory', SwitchHistorySchema, {discriminatorKey : 'type'});
 

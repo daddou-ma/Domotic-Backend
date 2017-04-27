@@ -16,10 +16,23 @@ let users       = require('./routes/users')
 let sessions    = require('./routes/sessions')
 let boards    	= require('./routes/boards')
 let rooms   	= require('./routes/rooms')
+
+let nodes       = require('./routes/nodes')
 let airs    	= require('./routes/airs')
 let curtains	= require('./routes/curtains')
 let switchs    	= require('./routes/switchs')
 let thgs    	= require('./routes/thgs')
+
+let airHistory       = require('./routes/histories/air-histories')
+let curtainHistory   = require('./routes/histories/curtain-histories')
+let switchHistory    = require('./routes/histories/switch-histories')
+let thgHistory       = require('./routes/histories/thg-histories')
+
+let airSchedule       = require('./routes/schedules/air-schedules')
+let curtainSchedule   = require('./routes/schedules/curtain-schedules')
+let switchSchedule    = require('./routes/schedules/switch-schedules')
+let thgSchedule       = require('./routes/schedules/thg-schedules')
+
 
 /** Creating App Server **/
 let app = express()
@@ -71,16 +84,32 @@ app.use(bodyParser.json())
 /** Cookie Parser **/
 app.use(cookieParser())
 
+setInterval(function() {
+    console.log(global.user_id)
+}, 2000)
+
 
 /** Routes Setup **/
 app.use('/users',    users)
 app.use('/sessions', sessions)
 app.use('/boards', 	 boards)
 app.use('/rooms',	 rooms)
+
+app.use('/nodes',    nodes)
 app.use('/airs', 	 airs)
 app.use('/curtains', curtains)
 app.use('/switchs',	 switchs)
 app.use('/thgs',	 thgs)
+
+app.use('/air-histories',       airHistory)
+app.use('/curtain-histories',   airHistory)
+app.use('/switch-histories',    airHistory)
+app.use('/thg-histories',       airHistory)
+
+app.use('/air-schedules',       airSchedule)
+app.use('/curtain-schedules',   airSchedule)
+app.use('/switch-schedules',    airSchedule)
+app.use('/thg-schedules',       airSchedule)
 
 /** Export App & Server to use it in bin/www **/
 module.exports = {app: app, server: server}

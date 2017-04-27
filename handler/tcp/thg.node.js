@@ -8,7 +8,7 @@ class THGNode extends Node {
 	constructor(socket, board) {
 		super(socket, board)
 
-		this.thg 		 = {}
+		this.thg = {}
 
 		let self = this
 
@@ -22,7 +22,6 @@ class THGNode extends Node {
 
 	    this.socket.on('data', (data) => {
     		let obj = JSON.parse(data.toString('utf8'))
-    		console.log(obj)
 			self.updateData(obj)
 		})
 	}

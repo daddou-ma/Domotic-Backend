@@ -124,12 +124,7 @@ let mapParams = (req) => {
     let room = req.body || req.query
 
     return {
-        "board" : room.board,
-        "room"  : room.room,
-        "name"  : room.name,
-        "level" : room.level,
-        "mode"  : room.mode,
-        "degre" : room.degre
+        name : room.name,
     }
 }
 

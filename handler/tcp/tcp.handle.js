@@ -8,19 +8,18 @@ const SwitchNode 	= require('./switch.node')
 
 let nodes = {}
 
+global.h_nodes = nodes
+
 let server = net.createServer(function(socket) {
 	let ip 				= socket.remoteAddress
 	let port 			= socket.remotePort
 	let board 			= undefined
 
-	socket.write('Salammm dfsdg \r\n')
-	console.log('conenctt')
-
 	let connect = function(data){
-		//console.log(data.toString('utf8'))
 		obj = JSON.parse(data.toString('utf8'))
 
-		console.log('h------------------------------------------------')
+		console.log(`NODE [${socket.remoteAddress} | ${obj.type}] : CONNECTED to [${obj.serial_number}]`)
+
 		if(!obj.serial_number) {
 			return
 		}
@@ -65,10 +64,7 @@ let server = net.createServer(function(socket) {
 	}
 
 	socket.on('data', connect)
-
-	socket.on('end', ()=> {
-		console.log('Diconneta')
-	})
 })
 
-server.listen(5000, '192.168.1.2')
+//server.listen(5000, 'local.domotique.dz')
+server.listen(5000, '192.168.1.3')

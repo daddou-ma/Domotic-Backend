@@ -157,19 +157,18 @@ let mapParams = (req) => {
     let board = req.body || req.query
 
     return {
-        "serial_number" : board.serial_number,
-        "name"          : board.name,
-        "type"          : board.type,
-        "ipv4"          : board.ipv4
+        serial_number : board.serial_number,
+        type          : board.type,
+        ipv4          : board.ipv4
     }
 }
 
 module.exports = {
     index,
     show,
-    create,
-    update,
-    destroy,
-    remove,
-    restore
+    //create,
+    //update,
+    //destroy,
+    //remove,
+    //restore
 }

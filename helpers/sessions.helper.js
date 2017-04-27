@@ -42,6 +42,7 @@ let checkAuth = (token) => {
             if (err) {
                 reject(err)
             }
+            global.user_id = token
             resolve(__('session.authenticated'))
         })
     })

@@ -40,7 +40,7 @@ let show = (req, res) => {
  * @param {Object|Object} request & response
  */
 let create = (req, res) => {
-    let air = new Air(mapParams(req))
+    let air = new Air(mapCreateParams(req))
 
     air.save()
     .then((air) => {
@@ -60,7 +60,7 @@ let update = (req, res) => {
     Air.findOne({_id : req.params.id})
     .then((air) => {
         // Update Air
-        air.update(mapParams(req))
+        air.update(mapUpdateParams(req))
         .then((air) => {
             response.successHandler(res, __('air.updated'))
         })
@@ -121,24 +121,33 @@ let restore = (req, res) => {
  * @param {Object} Air
  * @return {Object} Air mapped
  */
-let mapParams = (req) => {
+let mapCreateParams = (req) => {
     let air = req.body || req.query
 
     return {
-        "board" : air.board,
-        "room"  : air.room,
-        "name"  : air.name,
-        "level" : air.level,
-        "mode"  : air.mode,
-        "degre" : air.degre
+        board : air.board,
+        room  : air.room,
+        name  : air.name,
+        level : air.level,
+        mode  : air.mode,
+        degre : air.degre
+    }
+}
+
+let mapUpdateParams = (req) => {
+    let air = req.body || req.query
+
+    return {
+        room  : air.room,
+        name  : air.name,
     }
 }
 
 module.exports = {
     index,
     show,
-    create,
+    //create,
     update,
-    destroy,
-    restore
+    //destroy,
+    //restore
 }

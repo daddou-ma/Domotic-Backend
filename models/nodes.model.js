@@ -1,7 +1,9 @@
 /** Includes **/
-let mongoose    = require('mongoose');
-let Schema      = mongoose.Schema;
-let Room        = require('./rooms.model')
+const mongoose    = require('mongoose');
+const Schema      = mongoose.Schema;
+const Room        = require('./rooms.model')
+
+const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
 
 /** Node Schema Declaration **/
 let nodeSchema = new Schema({
@@ -39,6 +41,17 @@ let nodeSchema = new Schema({
         type        : Date
     }
 })
+
+/* Advanced hooks */
+nodeSchema.plugin(mongooseAdvancedHook)
+
+nodeSchema.virtual('user')
+.get(function () {
+    return this._user;
+})
+.set(function (html) {
+    this._user = user;
+});
 
 // TODO : Relations
 

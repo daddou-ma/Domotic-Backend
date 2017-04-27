@@ -1,7 +1,9 @@
 /** Includes **/
-let mongoose    = require('mongoose');
-let Schema      = mongoose.Schema;
-let History     = require('./history.model')
+const mongoose    = require('mongoose');
+const Schema      = mongoose.Schema;
+const History     = require('./history.model')
+
+const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
 
 /** THGHistory Schema Declaration **/
 let THGHistorySchema = new Schema({
@@ -19,6 +21,8 @@ let THGHistorySchema = new Schema({
     }
 })
 
+/* Advanced hooks */
+THGHistorySchema.plugin(mongooseAdvancedHook)
 
 let THGHistory = History.discriminator('THGHistory', THGHistorySchema, {discriminatorKey : 'type'});
 

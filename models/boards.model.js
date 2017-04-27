@@ -1,16 +1,18 @@
 /** Includes **/
 let mongoose    = require('mongoose');
 let Schema      = mongoose.Schema;
-const Air   = require('./airs.model')
-const Curtain = require('./curtains.model')
-const Switch   = require('./switchs.model')
-const THG   = require('./thgs.model')
+const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
+
+const Air       = require('./airs.model')
+const Curtain   = require('./curtains.model')
+const Switch    = require('./switchs.model')
+const THG       = require('./thgs.model')
 
 /** Board Schema Declaration **/
 let boardSchema = new Schema({
     node  : {
         type        : Schema.Types.ObjectId,
-        ref         : 'Air'
+        ref         : 'Node'
     },
     serial_number: {
         type        : String,
@@ -50,6 +52,9 @@ let boardSchema = new Schema({
         type        : Date
     }
 });
+
+/* Advanced hooks */
+boardSchema.plugin(mongooseAdvancedHook)
 
 /** Action Done Before Saving a Board **/
 boardSchema.pre('save', function(next) {

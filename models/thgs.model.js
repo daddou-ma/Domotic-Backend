@@ -1,8 +1,11 @@
 /** Includes **/
-let mongoose    = require('mongoose');
-let Schema      = mongoose.Schema;
-let Node        = require('./node.model')
-let THGHistory  = require('./thg-histories.model')
+const mongoose    = require('mongoose');
+const Schema      = mongoose.Schema;
+const Node        = require('./nodes.model')
+const Board       = require('./boards.model')
+const THGHistory  = require('./histories/thg-histories.model')
+
+const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
 
 
 /** THG Schema Declaration **/
@@ -21,31 +24,25 @@ let THGSchema = new Schema({
     }
 })
 
-THGSchema.post('save', function() {
+/* Advanced hooks */
+THGSchema.plugin(mongooseAdvancedHook)
+
+THGSchema.postUpdate(function(next, doc, query) {
     let history = new THGHistory({
-        temperature : this.temperature,
-        humidity    : this.humidity,
-        gaz         : this.gaz,
-        light       : this.light,
+        temperature : doc.temperature,
+        humidity    : doc.humidity,
+        gaz         : doc.gaz,
+        light       : doc.light,
         type        : 'THGHistory'
     })
     history.save()
-})
-
-
-THGSchema.post('update', function() {
-
-    THG.findOne({_id: this._conditions._id})
-    .then((thg) => {
-        let history = new THGHistory({
-            temperature : thg.temperature,
-            humidity    : thg.humidity,
-            gaz         : thg.gaz,
-            light       : thg.light,
-            type        : 'THGHistory'
-        })
-        history.save()
+    .then((doc)=> {
+        console.log(doc)
     })
+    .catch((doc)=> {
+        console.log(doc)
+    })
+    next()
 })
 
 let THG = Node.discriminator('THG', THGSchema, {discriminatorKey: 'type'});
