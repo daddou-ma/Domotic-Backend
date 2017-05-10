@@ -15,7 +15,7 @@ let response    = require('../helpers/responses.helper')
 let check = (req, res) => {
 
     // Getting username & password from the request
-    let  token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies['_token']
+    let  token = req.body.token || req.query.token || req.headers['authorization'] || req.cookies['_token']
     
     if (!token) {
         response.errorHandler(res, __('session.noSession')) 
@@ -38,6 +38,7 @@ let create = (req, res) => {
     let username = req.body.username || req.query.username
     let password = req.body.password || req.query.password
     
+    console.log(req.headers)
     // User authentication
     Auth(username, password)
     .then((token) => {

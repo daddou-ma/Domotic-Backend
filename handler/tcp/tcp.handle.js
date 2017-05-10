@@ -1,4 +1,5 @@
-const net = require('net')
+const net = require('tls')
+const fs = require('fs')
 const Board	= require('../../models/boards.model')
 const Node 	= require('./node')
 const THGNode 	= require('./thg.node')
@@ -10,14 +11,21 @@ let nodes = {}
 
 global.tcp_nodes = nodes
 
-let server = net.createServer(function(socket) {
+var options = {
+  key: fs.readFileSync('ryans-key.pem'),
+  cert: fs.readFileSync('ryans-cert.pem')
+};
+
+let server = net.createServer(options, function(socket) {
 	let ip 				= socket.remoteAddress
 	let port 			= socket.remotePort
 	let board 			= undefined
 
+	socket.setKeepAlive(true)
+	socket.setTimeout(1000 * 1000)
 	let connect = function(data){
 		obj = JSON.parse(data.toString('utf8'))
-
+		console.log(obj)
 		console.log(`NODE [${socket.remoteAddress} | ${obj.type}] : CONNECTED to [${obj.serial_number}]`)
 
 		if(!obj.serial_number) {
@@ -66,5 +74,4 @@ let server = net.createServer(function(socket) {
 	socket.on('data', connect)
 })
 
-//server.listen(5000, 'local.domotique.dz')
-server.listen(5000, '10.1.66.43')
+server.listen(5000, 'local.domotique.dz')

@@ -42,8 +42,7 @@ let checkAuth = (token) => {
             if (err) {
                 reject(err)
             }
-            global.user_id = token
-            resolve(__('session.authenticated'))
+            resolve(decoded)
         })
     })
     return promise
@@ -92,7 +91,8 @@ let logout = (token) => {
  */
 let createToken = (user) => {
     let token = jwt.sign({ 
-            user: user.name,
+            _id  : user._id,
+            user : user.name,
             email: user.email
         }, process.env.API_SECRET, {
             expiresIn: process.env.TOKEN_TIMEOUT

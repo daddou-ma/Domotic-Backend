@@ -2,6 +2,7 @@
 const mongoose    = require('mongoose');
 const Schema      = mongoose.Schema;
 const Room        = require('./rooms.model')
+const scheduleHandler   = require('../handler/schedule/schedule.handler')
 
 const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
 
@@ -17,6 +18,9 @@ let scheduleSchema = new Schema({
     },
     time  : {
         type        : Date
+    },
+    executed : {
+        type        : Boolean
     },
     type: {
         type        : String,
@@ -42,6 +46,12 @@ let scheduleSchema = new Schema({
 
 /* Advanced hooks */
 scheduleSchema.plugin(mongooseAdvancedHook)
+
+scheduleSchema.postCreate((next, doc, query) => {
+    console.log('created !')
+    scheduleHandler.addSchedule(doc)
+    next()
+})
 
 
 /** Action Done Before Saving a Schedule **/

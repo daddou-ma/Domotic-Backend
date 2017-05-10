@@ -2,7 +2,6 @@
 const mongoose    = require('mongoose');
 const Schema      = mongoose.Schema;
 const Node        = require('./nodes.model')
-const Board       = require('./boards.model')
 const CurtainHistory = require('./histories/curtain-histories.model')
 
 const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
@@ -26,7 +25,7 @@ CurtainSchema.postUpdate(function(next, doc, query) {
     })
     history.save()
     .then((doc)=> {
-        console.log(doc)
+        console.log("History Created : ", doc.name)
     })
     .catch((doc)=> {
         console.log(doc)
@@ -35,9 +34,11 @@ CurtainSchema.postUpdate(function(next, doc, query) {
 })
 
 CurtainSchema.postUpdate(function(next, doc, query) {
+    let Board = mongoose.models.Board
+
     Board.findOne({_id: doc.board})
     .then((doc)=> {
-        console.log(doc)
+       console.log("Action Received : ", doc.serial_number)
         if ( tcp_nodes[doc.serial_number]) {
             tcp_nodes[doc.serial_number].sync()
         }

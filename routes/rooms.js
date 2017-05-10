@@ -4,12 +4,18 @@ const roomController  = require('../controllers/rooms.controller')
 const langMiddleware  = require('../middlewares/lang')
 const authMiddleware  = require('../middlewares/auth')
 const router          = express.Router()
+const multer 	 	  = require('multer')
 
 /** adding Language middleware to router **/
 router.use(langMiddleware.lang)
 
 /** adding auth middleware to router **/
 router.use(authMiddleware.auth)
+
+
+var uploading = multer({
+  	dest: __dirname + '../public/uploads/'
+  })
 
 /** GET /rooms **/
 router.get('/', (req, res, next) => {
@@ -24,8 +30,7 @@ router.get('/:id', (req, res, next) => {
 })
 
 /** POST /rooms/ **/
-router.post('/', (req, res, next) => {
-
+router.post('/', uploading.single('image'), (req, res, next) => {
     roomController.create(req ,res)
 })
 

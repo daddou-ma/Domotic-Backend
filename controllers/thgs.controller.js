@@ -148,7 +148,8 @@ let mapParams = (req) => {
         temperature   : thg.temperature,
         humidity      : thg.humidity,
         gaz           : thg.gaz,
-        light         : thg.light
+        light         : thg.light,
+        move          : thg.move
     }
 }
 

@@ -1,10 +1,10 @@
 /** Includes **/
-const mongoose    = require('mongoose');
-const Schema      = mongoose.Schema;
-const Node        = require('./nodes.model')
-const Board       = require('./boards.model')
-const AirHistory  = require('./histories/air-histories.model')
-const mongooseAdvancedHook    = require('mongoose-advanced-hooks')
+let mongoose    = require('mongoose')
+let Schema      = mongoose.Schema
+let Node        = require('./nodes.model')
+let AirHistory  = require('./histories/air-histories.model')
+
+let mongooseAdvancedHook    = require('mongoose-advanced-hooks')
 
 /** Air Schema Declaration **/
 let AirSchema = new Schema({
@@ -26,17 +26,17 @@ let AirSchema = new Schema({
 AirSchema.plugin(mongooseAdvancedHook)
 
 AirSchema.postUpdate(function(next, doc, query) {
-    console.log('preee update')
     let history = new AirHistory({
         temperature : doc.temperature,
         level       : doc.level,
         mode        : doc.mode,
         degre       : doc.degre,
+        user        : doc.user,
         type        : 'AirHistory'
     })
     history.save()
     .then((doc)=> {
-        console.log(doc)
+        console.log("History Created : ", doc.name)
     })
     .catch((doc)=> {
         console.log(doc)
@@ -45,9 +45,11 @@ AirSchema.postUpdate(function(next, doc, query) {
 })
 
 AirSchema.postUpdate(function(next, doc, query) {
+    let Board = mongoose.models.Board
+
     Board.findOne({_id: doc.board})
     .then((doc)=> {
-        console.log(doc)
+        console.log("Action Received : ", doc.serial_number)
         if ( tcp_nodes[doc.serial_number]) {
             tcp_nodes[doc.serial_number].sync()
         }
@@ -58,6 +60,7 @@ AirSchema.postUpdate(function(next, doc, query) {
     
     next()
 })
+
 
 
 let Air = Node.discriminator('Air', AirSchema, {discriminatorKey : 'type'});

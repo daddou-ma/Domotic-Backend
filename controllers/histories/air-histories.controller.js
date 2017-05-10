@@ -8,8 +8,8 @@ let response    = require('../../helpers/responses.helper')
  */
 let index = (req, res) => {
     History.find()
-    .then((historys) => {
-        res.json(historys)
+    .then((histories) => {
+        res.json(histories)
     })
     .catch((err) => {
         response.errorHandler(res, err)
@@ -26,7 +26,7 @@ let show = (req, res) => {
     History.findOne({_id : id})
     .then((history) => {
         res.json(history)
-    })
+    }  )
     .catch((err) => {
         response.errorHandler(res, err)
     })

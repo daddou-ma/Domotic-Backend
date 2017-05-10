@@ -3,7 +3,7 @@ const express         = require('express')
 const airController  = require('../controllers/airs.controller')
 const langMiddleware  = require('../middlewares/lang')
 const authMiddleware  = require('../middlewares/auth')
-const router          = express.Router()
+let router          = express.Router()
 
 /** adding Language middleware to router **/
 router.use(langMiddleware.lang)

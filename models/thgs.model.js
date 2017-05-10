@@ -2,7 +2,7 @@
 const mongoose    = require('mongoose');
 const Schema      = mongoose.Schema;
 const Node        = require('./nodes.model')
-const Board       = require('./boards.model')
+const Room        = require('./rooms.model')
 const THGHistory  = require('./histories/thg-histories.model')
 
 const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
@@ -20,6 +20,9 @@ let THGSchema = new Schema({
         type        : Number
     },
     light: {
+        type        : Number
+    },
+    move: {
         type        : Number
     }
 })
@@ -41,6 +44,33 @@ THGSchema.postUpdate(function(next, doc, query) {
         doc.histories.push(history)
     })
     .catch((err)=> {
+        console.log(err)
+    })
+    next()
+})
+
+THGSchema.postUpdate(function(next, doc, query) {
+    if (!doc.room) {
+        next()
+        return
+    }
+    Room.findOne({_id : doc.room})
+    .then((room) => {
+        room.temperature    = doc.temperature
+        room.humidity       = doc.humidity
+        room.gaz            = doc.gaz
+        room.light          = doc.light
+        room.move           = doc.move
+        
+        room.save()
+        .then((room) => {
+            console.log('Room infos updated', room.name)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    })
+    .catch((err) => {
         console.log(err)
     })
     next()

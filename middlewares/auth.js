@@ -4,8 +4,16 @@ let responseHelper  = require('../helpers/responses.helper')
 let auth = function(req, res, next) {
 
     // check header or url parameters or post parameters for token
-    let  token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies['_token']
-    
+    let  token = req.body.token || req.query.token || req.headers['authorization'] || req.cookies['_token']
+
+    console.log(req.headers)
+
+    if(req.method === 'OPTIONS')
+    {
+        next()
+        return
+    }
+
     if (!token) {
         responseHelper.errorHandler(res, __('session.noSession')) 
     }
@@ -14,6 +22,7 @@ let auth = function(req, res, next) {
     sessionHelper.checkAuth(token)
     .then(function(doc) {
         /** if air authenticated call next **/
+        req._user = doc._id
         next()
     })
     .catch(function(err) {

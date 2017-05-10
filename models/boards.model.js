@@ -125,12 +125,6 @@ boardSchema.post('save', function() {
                 "switch10" : false
             })
             switchh.save()
-            .then((doc) => {
-                console.log(doc)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
             nodeId = switchh._id
         break;
         case 'thg':

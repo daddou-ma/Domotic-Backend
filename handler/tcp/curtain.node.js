@@ -20,12 +20,6 @@ class CurtainNode extends Node {
 	    .catch((err) => {
 	        console.log('ma tla9itouch')
 	    })
-
-	   	setInterval(function() {
-	   		this.socket.write(JSON.stringify({
-				level		: 2
-			}))
-	   	}, 2000)
 	}
 
 	sync() {

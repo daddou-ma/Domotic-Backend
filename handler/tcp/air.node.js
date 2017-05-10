@@ -1,4 +1,4 @@
-const Air = require('../../models/airs.model.js')
+const Air = require('../../models/airs.model')
 const Node = require('./node')
 let mongoose    = require('mongoose')
 let Schema      = mongoose.Schema
@@ -36,7 +36,7 @@ class AirNode extends Node {
 
 	send() {
 		this.socket.write(JSON.stringify({
-			degree		: this.air.degree,
+			degre		: this.air.degre,
 			level		: this.air.level,
 			mode 		: this.air.mode
 		}))

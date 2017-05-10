@@ -128,7 +128,7 @@ let mapParams = (req) => {
     let curtain = req.body || req.query
 
     return {
-        room   : curatin.room,
+        room   : curtain.room,
         level  : curtain.level,
     }
 }

@@ -1,7 +1,6 @@
 let Schedule        = require('../models/schedules.model')
 let response    = require('../helpers/responses.helper')
 
-
 /**
  * Get All Schedules
  * @param {Object|Object} request & response

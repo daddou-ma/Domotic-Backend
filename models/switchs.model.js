@@ -2,7 +2,6 @@
 const mongoose    = require('mongoose');
 const Schema      = mongoose.Schema;
 const Node        = require('./nodes.model')
-const Board       = require('./boards.model')
 const SwitchHistory = require('./histories/switch-histories.model')
 
 const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
@@ -82,6 +81,8 @@ SwitchSchema.postUpdate(function(next, doc, query) {
 })
 
 SwitchSchema.postUpdate(function(next, doc, query) {
+    let Board = mongoose.models.Board
+
     Board.findOne({_id: doc.board})
     .then((doc)=> {
         console.log(doc)

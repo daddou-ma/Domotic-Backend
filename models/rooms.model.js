@@ -19,6 +19,21 @@ let roomSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Node'
     }],
+    temperature: {
+        type        : Number    
+    },
+    humidity: {
+        type        : Number
+    },
+    gaz: {
+        type        : Number
+    },
+    light: {
+        type        : Number
+    },
+    move: {
+        type        : Number
+    },
     deleted: {
         type        : Boolean,
         default     : false

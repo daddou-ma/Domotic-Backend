@@ -133,7 +133,8 @@ let mapCreateParams = (req) => {
         name  : air.name,
         level : air.level,
         mode  : air.mode,
-        degre : air.degre
+        degre : air.degre,
+        user  : req._user
     }
 }
 
@@ -143,6 +144,10 @@ let mapUpdateParams = (req) => {
     return {
         room  : air.room,
         name  : air.name,
+        level : air.level,
+        mode  : air.mode,
+        degre : air.degre,
+        user  : req._user
     }
 }
 

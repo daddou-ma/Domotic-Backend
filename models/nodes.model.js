@@ -29,6 +29,10 @@ let nodeSchema = new Schema({
         required    : [true, __('node.fields.type.required')],
         enum        : ['Air', 'THG', 'Switch', 'Curtain']
     },
+    user  : {
+        type        : Schema.Types.ObjectId,
+        ref         : 'User'
+    },
     deleted: {
         type        : Boolean,
         default     : false
@@ -48,14 +52,6 @@ let nodeSchema = new Schema({
 
 /* Advanced hooks */
 nodeSchema.plugin(mongooseAdvancedHook)
-
-nodeSchema.virtual('user')
-.get(function () {
-    return this._user;
-})
-.set(function (user) {
-    this._user = user;
-});
 
 // TODO : Relations
 
