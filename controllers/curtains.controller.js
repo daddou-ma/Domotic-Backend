@@ -129,7 +129,8 @@ let mapParams = (req) => {
 
     return {
         room   : curtain.room,
-        level  : curtain.level,
+        name   : curtain.name,
+        level  : curtain.level
     }
 }
 

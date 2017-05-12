@@ -2,6 +2,7 @@
 const mongoose    = require('mongoose');
 const Schema      = mongoose.Schema;
 const Node        = require('./nodes.model')
+const Room        = require('./rooms.model')
 const CurtainHistory = require('./histories/curtain-histories.model')
 
 const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
@@ -20,7 +21,7 @@ CurtainSchema.plugin(mongooseAdvancedHook)
 CurtainSchema.postUpdate(function(next, doc, query) {
     let history = new CurtainHistory({
         level       : doc.level,
-        user        : this._user,
+        user        : doc.user,
         type        : 'SwitchHistory'
     })
     history.save()
@@ -47,6 +48,61 @@ CurtainSchema.postUpdate(function(next, doc, query) {
         console.log(err)
     })
     
+    next()
+})
+
+CurtainSchema.postCreate((next, doc, query) => {
+    console.log(doc.room)
+    if(!doc.room) {
+        return
+    }
+
+    Room.findOne({_id: doc.room})
+    .then((room) => {
+        let index = room.nodes.indexOf(doc._id)
+
+        if (index < 0) {
+            room.nodes.push(doc)
+            room.save()
+        }
+        
+    })
+    next()
+})
+
+CurtainSchema.preUpdate((next, doc, query) => {
+    console.log(doc.room)
+    if(!doc.room ) {
+        return
+    }
+    
+    Room.findOne({_id: doc.room})
+    .then((room) => {
+        let index = room.nodes.indexOf(doc._id)
+
+        if (index >= 0) {
+            room.nodes.splice(index, 1);
+            room.save()
+        }
+    })
+    next()
+})
+
+CurtainSchema.postUpdate((next, doc, query) => {
+    console.log(doc.room)
+    if(!doc.room) {
+        return
+    }
+
+    Room.findOne({_id: doc.room})
+    .then((room) => {
+        let index = room.nodes.indexOf(doc._id)
+
+        if (index < 0) {
+            room.nodes.push(doc)
+            room.save()
+        }
+    })
     next()
 })
 

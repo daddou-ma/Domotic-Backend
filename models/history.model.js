@@ -38,14 +38,14 @@ let historySchema = new Schema({
 historySchema.plugin(mongooseAdvancedHook)
 
 /** Action Done After Saving a History **/
-historySchema.postCreate((schema, doc, query) => {
-    if(doc.node) {
+historySchema.postCreate((next, doc, query) => {
+    /*if(doc.node) {
         Node.findOne({_id: doc.node})
         .then((node) => {
             node.histories.push(doc)
             node.save()
         })
-    }
+    }*/
 
     next()
 })

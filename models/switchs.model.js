@@ -2,6 +2,7 @@
 const mongoose    = require('mongoose');
 const Schema      = mongoose.Schema;
 const Node        = require('./nodes.model')
+const Room        = require('./rooms.model')
 const SwitchHistory = require('./histories/switch-histories.model')
 
 const mongooseAdvancedHook  = require('mongoose-advanced-hooks')
@@ -56,7 +57,7 @@ let SwitchSchema = new Schema({
 SwitchSchema.plugin(mongooseAdvancedHook)
 
 SwitchSchema.postUpdate(function(next, doc, query) {
-    let history = new THGHistory({
+    let history = new SwitchHistory({
         switch01    : doc.switch01,
         switch02    : doc.switch02,
         switch03    : doc.switch03,
@@ -94,6 +95,61 @@ SwitchSchema.postUpdate(function(next, doc, query) {
         console.log(err)
     })
     
+    next()
+})
+
+SwitchSchema.postCreate((next, doc, query) => {
+    console.log(doc.room)
+    if(!doc.room) {
+        return
+    }
+
+    Room.findOne({_id: doc.room})
+    .then((room) => {
+        let index = room.nodes.indexOf(doc._id)
+
+        if (index < 0) {
+            room.nodes.push(doc)
+            room.save()
+        }
+        
+    })
+    next()
+})
+
+SwitchSchema.preUpdate((next, doc, query) => {
+    console.log(doc.room)
+    if(!doc.room ) {
+        return
+    }
+    
+    Room.findOne({_id: doc.room})
+    .then((room) => {
+        let index = room.nodes.indexOf(doc._id)
+
+        if (index >= 0) {
+            room.nodes.splice(index, 1);
+            room.save()
+        }
+    })
+    next()
+})
+
+SwitchSchema.postUpdate((next, doc, query) => {
+    console.log(doc.room)
+    if(!doc.room) {
+        return
+    }
+
+    Room.findOne({_id: doc.room})
+    .then((room) => {
+        let index = room.nodes.indexOf(doc._id)
+
+        if (index < 0) {
+            room.nodes.push(doc)
+            room.save()
+        }
+    })
     next()
 })
 

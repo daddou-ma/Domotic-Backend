@@ -14,7 +14,7 @@ router.use(authMiddleware.auth)
 
 
 var uploading = multer({
-  	dest: __dirname + '../public/uploads/'
+  	dest: __dirname + '/../public/uploads/'
   })
 
 /** GET /rooms **/
@@ -31,12 +31,16 @@ router.get('/:id', (req, res, next) => {
 
 /** POST /rooms/ **/
 router.post('/', uploading.single('image'), (req, res, next) => {
+	if (req.file) {
+		req.body.image_name = req.file.filename
+	}
     roomController.create(req ,res)
 })
 
 /** PUT /rooms/ **/
 router.put('/:id', (req, res, next) => {
-
+    console.log(req.headers)
+    console.log(req.body)
     roomController.update(req ,res)
 })
 

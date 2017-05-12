@@ -128,17 +128,18 @@ let mapParams = (req) => {
     let switchh = req.body || req.query
 
     return {
+        name       : switchh.name,
         room       : switchh.room,
-        switch01   : switchh.swich01,
-        switch02   : switchh.swich02,
-        switch03   : switchh.swich03,
-        switch04   : switchh.swich04,
-        switch05   : switchh.swich05,
-        switch06   : switchh.swich06,
-        switch07   : switchh.swich07,
-        switch08   : switchh.swich08,
-        switch09   : switchh.swich09,
-        switch10   : switchh.swich10
+        switch01   : switchh.switch01,
+        switch02   : switchh.switch02,
+        switch03   : switchh.switch03,
+        switch04   : switchh.switch04,
+        switch05   : switchh.switch05,
+        switch06   : switchh.switch06,
+        switch07   : switchh.switch07,
+        switch08   : switchh.switch08,
+        switch09   : switchh.switch09,
+        switch10   : switchh.switch10
     }
 }
 

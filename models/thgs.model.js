@@ -42,6 +42,7 @@ THGSchema.postUpdate(function(next, doc, query) {
     history.save()
     .then((history)=> {
         doc.histories.push(history)
+        //doc.save()
     })
     .catch((err)=> {
         console.log(err)

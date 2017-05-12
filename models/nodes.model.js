@@ -57,6 +57,7 @@ nodeSchema.plugin(mongooseAdvancedHook)
 
 /** Action Done After Saving a Node **/
 nodeSchema.postCreate((next, doc, query) => {
+    console.log(doc.room)
     if(!doc.room) {
         return
     }
@@ -69,10 +70,12 @@ nodeSchema.postCreate((next, doc, query) => {
             room.nodes.push(doc)
             room.save()
         }
+        next()
     })
 })
 
 nodeSchema.preUpdate((next, doc, query) => {
+    console.log(doc.room)
     if(!doc.room ) {
         return
     }
@@ -86,22 +89,25 @@ nodeSchema.preUpdate((next, doc, query) => {
             room.save()
         }
     })
+    next()
 })
 
 nodeSchema.postUpdate((next, doc, query) => {
+    console.log(doc.room)
     if(!doc.room) {
         return
     }
 
-    Room.findOne({_id: this.room})
+    Room.findOne({_id: doc.room})
     .then((room) => {
         let index = room.nodes.indexOf(doc._id)
 
         if (index < 0) {
-            room.nodes.push(node)
+            room.nodes.push(doc)
             room.save()
         }
     })
+    next()
 })
 /** Action Done After Update a Node **/
 /*

@@ -6,7 +6,9 @@ let auth = function(req, res, next) {
     // check header or url parameters or post parameters for token
     let  token = req.body.token || req.query.token || req.headers['authorization'] || req.cookies['_token']
 
+    console.log(req.method)
     console.log(req.headers)
+    console.log(req.body)
 
     if(req.method === 'OPTIONS')
     {

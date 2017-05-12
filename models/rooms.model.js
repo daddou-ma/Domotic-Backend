@@ -15,6 +15,9 @@ let roomSchema = new Schema({
         type        : String,
         default     : '#FEF8F9'
     },
+    image_name: {
+        type        : String
+    },
     nodes : [{
         type: Schema.Types.ObjectId,
         ref: 'Node'

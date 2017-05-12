@@ -25,7 +25,7 @@ let show = (req, res) => {
     let id = req.params.id
     
     Room.findOne({_id : id})
-    .populate('board')
+    .populate('nodes')
     .then((room) => {
         res.json(room)
     })
@@ -125,6 +125,7 @@ let mapParams = (req) => {
 
     return {
         name : room.name,
+        image_name : room.image_name
     }
 }
 
