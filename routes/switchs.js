@@ -41,11 +41,5 @@ router.delete('/:id', (req, res, next) => {
     switchController.destroy(req ,res)
 })
 
-/** get /switchs/:id/restore **/
-router.get('/:id/restore', (req, res, next) => {
-
-    switchController.restore(req ,res)
-})
-
 /** Export the module **/
 module.exports = router

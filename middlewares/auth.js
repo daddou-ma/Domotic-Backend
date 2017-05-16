@@ -7,8 +7,6 @@ let auth = function(req, res, next) {
     let  token = req.body.token || req.query.token || req.headers['authorization'] || req.cookies['_token']
 
     console.log(req.method)
-    console.log(req.headers)
-    console.log(req.body)
 
     if(req.method === 'OPTIONS')
     {

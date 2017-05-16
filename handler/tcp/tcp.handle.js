@@ -8,8 +8,15 @@ const CurtainNode 	= require('./curtain.node')
 const SwitchNode 	= require('./switch.node')
 
 let nodes = {}
+const token = process.env.TOKEN
 
 global.tcp_nodes = nodes
+
+/*setInterval(() => {
+	Object.keys(global.tcp_nodes).forEach(function (key) {
+	  	//console.log(key)
+	})
+}, 5000)*/
 
 var options = {
   key: fs.readFileSync('ryans-key.pem'),
@@ -21,14 +28,18 @@ let server = net.createServer(options, function(socket) {
 	let port 			= socket.remotePort
 	let board 			= undefined
 
-	//socket.setKeepAlive(true)
-	//socket.setTimeout(1000 * 1000)
 	let connect = function(data){
 		obj = JSON.parse(data.toString('utf8'))
-		console.log(obj)
 		console.log(`NODE [${socket.remoteAddress} | ${obj.type}] : CONNECTED to [${obj.serial_number}]`)
 
-		if(!obj.serial_number) {
+		if(!obj.serial_number || !obj.token || !obj.type) {
+			console.log(`UKNOWN DEVICE to [${obj}]`)
+			socket.destroy()
+			return
+		}
+		else if (obj.token != token) {
+			console.log(`NODE [${socket.remoteAddress} | ${obj.type}] : UNVALID TOKEN to [${obj.serial_number}]`)
+			socket.destroy()
 			return
 		}
 
@@ -75,6 +86,11 @@ let server = net.createServer(options, function(socket) {
 			        case 'thg':
 			            nodes[obj.serial_number] = new THGNode(socket, board)
 			        break;
+			        default:
+			        	console.log(`UKNOWN DEVICE TYPE to [${obj}]`)
+						socket.destroy()
+						return
+			        break;
 				}    	
 	        })
 	    })
@@ -87,4 +103,4 @@ let server = net.createServer(options, function(socket) {
 	socket.on('data', connect)
 })
 
-server.listen(5000, '192.168.1.2')
+server.listen(5000, '192.168.8.103')

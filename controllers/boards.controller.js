@@ -77,52 +77,9 @@ let update = (req, res) => {
  * @param {Object|Object} request & response
  */
 let destroy = (req, res) => {
-    Board.findOne({_id : req.params.id})
-    .then((board) => {
-        // Delete Board
-        board.delete()
-        .then((board) => {
-            response.successHandler(res, __('board.deleted'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
-}
-
-/**
- * Hard Delete Board by Id
- * @param {Object|Object} request & response
- */
-let remove = (req, res) => {
     Board.findOne({_id : req.params.id}).remove()
-    .then((board) => {
-        // Delete Board
-        response.successHandler(res, __('haaaaa'))
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
-}
-
-/**
- * Restore a deleted Board by Id
- * @param {Object|Object} request & response
- */
-let restore = (req, res) => {
-    Board.findOne({_id : req.params.id})
-    .then((board) => {
-        // Restore Board
-        board.restore()
-        .then((board) => {
-            response.successHandler(res,  __('board.restored'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
+    .then((doc) => {
+        response.successHandler(res, __('board.deleted'))
     })
     .catch((err) => {
         response.errorHandler(res, err)

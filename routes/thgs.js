@@ -41,17 +41,5 @@ router.delete('/:id', (req, res, next) => {
     thgController.destroy(req ,res)
 })
 
-/** delete /thgs/:id **/
-router.delete('/:id/hard', (req, res, next) => {
-
-    thgController.remove(req ,res)
-})
-
-/** get /thgs/:id/restore **/
-router.get('/:id/restore', (req, res, next) => {
-
-    thgController.restore(req ,res)
-})
-
 /** Export the module **/
 module.exports = router

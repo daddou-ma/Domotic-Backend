@@ -36,7 +36,8 @@ class AirNode extends Node {
 
 	send() {
 		this.socket.write(JSON.stringify({
-			degre		: this.air.degre,
+			power		: this.air.power,
+			degree		: this.air.degree,
 			level		: this.air.level,
 			mode 		: this.air.mode
 		}))

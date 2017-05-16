@@ -47,11 +47,5 @@ router.delete('/:id/hard', (req, res, next) => {
     boardController.remove(req ,res)
 })
 
-/** get /boards/:id/restore **/
-router.get('/:id/restore', (req, res, next) => {
-
-    boardController.restore(req ,res)
-})
-
 /** Export the module **/
 module.exports = router

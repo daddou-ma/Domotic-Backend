@@ -75,7 +75,7 @@ nodeSchema.postCreate((next, doc, query) => {
 })
 
 nodeSchema.preUpdate((next, doc, query) => {
-    console.log(doc.room)
+    //console.log(doc.room)
     if(!doc.room ) {
         return
     }
@@ -93,7 +93,7 @@ nodeSchema.preUpdate((next, doc, query) => {
 })
 
 nodeSchema.postUpdate((next, doc, query) => {
-    console.log(doc.room)
+    //console.log(doc.room)
     if(!doc.room) {
         return
     }

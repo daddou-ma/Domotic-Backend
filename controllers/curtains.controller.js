@@ -81,37 +81,9 @@ let update = (req, res) => {
  * @param {Object|Object} request & response
  */
 let destroy = (req, res) => {
-    Curtain.findOne({_id : req.params.id})
-    .then((curtain) => {
-        // Delete Curtain
-        curtain.delete()
-        .then((curtain) => {
-            response.successHandler(res, __('curtain.deleted'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
-}
-
-/**
- * Restore a deleted Curtain by Id
- * @param {Object|Object} request & response
- */
-let restore = (req, res) => {
-    Curtain.findOne({_id : req.params.id})
-    .then((curtain) => {
-        // Restore Curtain
-        curtain.restore()
-        .then((curtain) => {
-            response.successHandler(res,  __('curtain.restored'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
+    Curtain.findOne({_id : req.params.id}).remove()
+    .then((doc) => {
+        response.successHandler(res, __('curtain.deleted'))
     })
     .catch((err) => {
         response.errorHandler(res, err)

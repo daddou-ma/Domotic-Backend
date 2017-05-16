@@ -7,7 +7,9 @@ class Node {
 		board.plug()
 
 		let disconnect = () => {
-			console.log(`NODE [${socket.remoteAddress} | ${obj.type}] : DISCONNECTED from [${obj.serial_number}]`)
+			console.log(`NODE [${socket.remoteAddress} | ${board.type}] : DISCONNECTED from [${board.serial_number}]`)
+			this.socket.destroy()
+			delete global.tcp_nodes[board.serial_number]
 			board.unplug()
 		}
 

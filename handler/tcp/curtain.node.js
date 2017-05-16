@@ -27,6 +27,24 @@ class CurtainNode extends Node {
 			level		: this.curtain.level
 		}))
 	}
+	sync() {
+		let self = this
+
+		Curtain.findOne({board : this.board._id+""})
+	    .then((doc) => {
+	    	self.curtain = doc
+	    	self.send() 	
+	    })
+	    .catch((err) => {
+	        console.log('ma tla9itouch')
+	    })
+	}
+
+	send() {
+		this.socket.write(JSON.stringify({
+			level		: this.curtain.level
+		}))
+	}
 }
 
 module.exports = CurtainNode

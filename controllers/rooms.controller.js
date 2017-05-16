@@ -77,43 +77,14 @@ let update = (req, res) => {
  * @param {Object|Object} request & response
  */
 let destroy = (req, res) => {
-    Room.findOne({_id : req.params.id})
-    .then((room) => {
-        // Delete Room
-        room.delete()
-        .then((room) => {
-            response.successHandler(res, __('room.deleted'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
+    Room.findOne({_id : req.params.id}).remove()
+    .then((doc) => {
+        response.successHandler(res, __('room.deleted'))
     })
     .catch((err) => {
         response.errorHandler(res, err)
     })
 }
-
-/**
- * Restore a deleted Room by Id
- * @param {Object|Object} request & response
- */
-let restore = (req, res) => {
-    Room.findOne({_id : req.params.id})
-    .then((room) => {
-        // Restore Room
-        room.restore()
-        .then((room) => {
-            response.successHandler(res,  __('room.restored'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
-}
-
 
 /**
  * Filter Params to create or update
@@ -134,6 +105,5 @@ module.exports = {
     show,
     create,
     update,
-    destroy,
-    restore
+    destroy
 }

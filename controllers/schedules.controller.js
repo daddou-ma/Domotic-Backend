@@ -74,37 +74,9 @@ let update = (req, res) => {
  * @param {Object|Object} request & response
  */
 let destroy = (req, res) => {
-    Schedule.findOne({_id : req.params.id})
-    .then((schedule) => {
-        // Delete Schedule
-        schedule.delete()
-        .then((schedule) => {
-            response.successHandler(res, __('schedule.deleted'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
-}
-
-/**
- * Restore a deleted Schedule by Id
- * @param {Object|Object} request & response
- */
-let restore = (req, res) => {
-    Schedule.findOne({_id : req.params.id})
-    .then((schedule) => {
-        // Restore Schedule
-        schedule.restore()
-        .then((schedule) => {
-            response.successHandler(res,  __('schedule.restored'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
+    Schedule.findOne({_id : req.params.id}).remove()
+    .then((doc) => {
+        response.successHandler(res, __('schedule.deleted'))
     })
     .catch((err) => {
         response.errorHandler(res, err)

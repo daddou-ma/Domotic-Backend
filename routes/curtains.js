@@ -41,11 +41,5 @@ router.delete('/:id', (req, res, next) => {
     curtainController.destroy(req ,res)
 })
 
-/** get /curtains/:id/restore **/
-router.get('/:id/restore', (req, res, next) => {
-
-    curtainController.restore(req ,res)
-})
-
 /** Export the module **/
 module.exports = router

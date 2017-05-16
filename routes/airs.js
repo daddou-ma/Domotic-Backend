@@ -41,11 +41,5 @@ router.delete('/:id', (req, res, next) => {
     airController.destroy(req ,res)
 })
 
-/** get /airs/:id/restore **/
-router.get('/:id/restore', (req, res, next) => {
-
-    airController.restore(req ,res)
-})
-
 /** Export the module **/
 module.exports = router

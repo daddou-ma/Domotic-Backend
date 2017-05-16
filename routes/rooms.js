@@ -39,8 +39,7 @@ router.post('/', uploading.single('image'), (req, res, next) => {
 
 /** PUT /rooms/ **/
 router.put('/:id', (req, res, next) => {
-    console.log(req.headers)
-    console.log(req.body)
+
     roomController.update(req ,res)
 })
 
@@ -48,12 +47,6 @@ router.put('/:id', (req, res, next) => {
 router.delete('/:id', (req, res, next) => {
 
     roomController.destroy(req ,res)
-})
-
-/** get /rooms/:id/restore **/
-router.get('/:id/restore', (req, res, next) => {
-
-    roomController.restore(req ,res)
 })
 
 /** Export the module **/

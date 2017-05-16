@@ -81,37 +81,9 @@ let update = (req, res) => {
  * @param {Object|Object} request & response
  */
 let destroy = (req, res) => {
-    Switch.findOne({_id : req.params.id})
-    .then((switchh) => {
-        // Delete Switch
-        switchh.delete()
-        .then((switchh) => {
-            response.successHandler(res, __('switch.deleted'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
-}
-
-/**
- * Restore a deleted Switch by Id
- * @param {Object|Object} request & response
- */
-let restore = (req, res) => {
-    Switch.findOne({_id : req.params.id})
-    .then((switchh) => {
-        // Restore Switch
-        switchh.restore()
-        .then((switchh) => {
-            response.successHandler(res,  __('switch.restored'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
+    Switch.findOne({_id : req.params.id}).remove()
+    .then((doc) => {
+        response.successHandler(res, __('switch.deleted'))
     })
     .catch((err) => {
         response.errorHandler(res, err)

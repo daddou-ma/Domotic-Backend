@@ -1,8 +1,9 @@
 const THG = require('../../models/thgs.model.js')
 const Node = require('./node')
-let mongoose    = require('mongoose')
-let Schema      = mongoose.Schema
+const mongoose    = require('mongoose')
+const Schema      = mongoose.Schema
 
+const historyInterval = 1000 * 60 * 1; // 1min
 
 class THGNode extends Node {
 	constructor(socket, board) {
@@ -15,15 +16,17 @@ class THGNode extends Node {
 		THG.findOne({board : this.board._id+""})
 	    .then((doc) => {
 	    	self.thg = doc
+
+	    	self.socket.on('data', (data) => {
+	    		let obj = JSON.parse(data.toString('utf8'))
+				self.updateData(obj)
+			})
+
+			setInterval(self.createHistory.bind(self), historyInterval)
 	    })
 	    .catch((err) => {
 	        console.log('ma tla9itouch')
 	    })
-
-	    this.socket.on('data', (data) => {
-    		let obj = JSON.parse(data.toString('utf8'))
-			self.updateData(obj)
-		})
 	}
 
 	updateData(data) {
@@ -33,6 +36,10 @@ class THGNode extends Node {
 		this.thg.light		 = data.light
 
 		this.thg.save()
+	}
+
+	createHistory() {
+		this.thg.createHistory()
 	}
 }
 

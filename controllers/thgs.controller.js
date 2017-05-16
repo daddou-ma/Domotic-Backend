@@ -82,52 +82,9 @@ let update = (req, res) => {
  * @param {Object|Object} request & response
  */
 let destroy = (req, res) => {
-    THG.findOne({_id : req.params.id})
-    .then((thg) => {
-        // Delete THG
-        thg.delete()
-        .then((thg) => {
-            response.successHandler(res, __('thg.deleted'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
-}
-
-/**
- * Hard Delete THG by Id
- * @param {Object|Object} request & response
- */
-let remove = (req, res) => {
     THG.findOne({_id : req.params.id}).remove()
-    .then((board) => {
-        // Delete THG
-        response.successHandler(res, __('haaaaa'))
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
-}
-
-/**
- * Restore a deleted THG by Id
- * @param {Object|Object} request & response
- */
-let restore = (req, res) => {
-    THG.findOne({_id : req.params.id})
-    .then((thg) => {
-        // Restore THG
-        thg.restore()
-        .then((thg) => {
-            response.successHandler(res,  __('thg.restored'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
+    .then((doc) => {
+        response.successHandler(res, __('thg.deleted'))
     })
     .catch((err) => {
         response.errorHandler(res, err)
@@ -145,11 +102,7 @@ let mapParams = (req) => {
 
     return {
         room          : thg.room,
-        temperature   : thg.temperature,
-        humidity      : thg.humidity,
-        gaz           : thg.gaz,
-        light         : thg.light,
-        move          : thg.move
+        name          : thg.name
     }
 }
 

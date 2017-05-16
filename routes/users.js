@@ -41,11 +41,5 @@ router.delete('/:id', (req, res, next) => {
     userController.destroy(req ,res)
 })
 
-/** get /users/:id/restore **/
-router.get('/:id/restore', (req, res, next) => {
-
-    userController.restore(req ,res)
-})
-
 /** Export the module **/
 module.exports = router

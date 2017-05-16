@@ -81,42 +81,15 @@ let update = (req, res) => {
  * @param {Object|Object} request & response
  */
 let destroy = (req, res) => {
-    Air.findOne({_id : req.params.id})
-    .then((air) => {
-        // Delete Air
-        air.delete()
-        .then((air) => {
-            response.successHandler(res, __('air.deleted'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
+    Air.findOne({_id : req.params.id}).remove()
+    .then((doc) => {
+        response.successHandler(res, __('air.deleted'))
     })
     .catch((err) => {
         response.errorHandler(res, err)
     })
 }
 
-/**
- * Restore a deleted Air by Id
- * @param {Object|Object} request & response
- */
-let restore = (req, res) => {
-    Air.findOne({_id : req.params.id})
-    .then((air) => {
-        // Restore Air
-        air.restore()
-        .then((air) => {
-            response.successHandler(res,  __('air.restored'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
-}
 
 
 /**
@@ -131,9 +104,10 @@ let mapCreateParams = (req) => {
         board : air.board,
         room  : air.room,
         name  : air.name,
+        power : air.power,
         level : air.level,
         mode  : air.mode,
-        degre : air.degre,
+        degree: air.degree,
         user  : req._user
     }
 }
@@ -144,9 +118,10 @@ let mapUpdateParams = (req) => {
     return {
         room  : air.room,
         name  : air.name,
+        power : air.power,
         level : air.level,
         mode  : air.mode,
-        degre : air.degre,
+        degree: air.degree,
         user  : req._user
     }
 }

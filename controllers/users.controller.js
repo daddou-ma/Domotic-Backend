@@ -93,43 +93,14 @@ let update = (req, res) => {
  * @param {Object|Object} request & response
  */
 let destroy = (req, res) => {
-    User.findOne({_id : req.params.id})
-    .then((user) => {
-        // Delete User
-        user.delete()
-        .then((user) => {
-            response.successHandler(res, __('user.deleted'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
+    User.findOne({_id : req.params.id}).remove()
+    .then((doc) => {
+        response.successHandler(res, __('user.deleted'))
     })
     .catch((err) => {
         response.errorHandler(res, err)
     })
 }
-
-/**
- * Restore a deleted User by Id
- * @param {Object|Object} request & response
- */
-let restore = (req, res) => {
-    User.findOne({_id : req.params.id})
-    .then((user) => {
-        // Restore User
-        user.restore()
-        .then((user) => {
-            response.successHandler(res,  __('user.restored'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
-}
-
 
 /**
  * Filter Params to create or update
@@ -151,6 +122,5 @@ module.exports = {
     show,
     create,
     update,
-    destroy,
-    restore
+    destroy
 }

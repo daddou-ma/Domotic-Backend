@@ -81,37 +81,9 @@ let update = (req, res) => {
  * @param {Object|Object} request & response
  */
 let destroy = (req, res) => {
-    Node.findOne({_id : req.params.id})
-    .then((node) => {
-        // Delete Node
-        node.delete()
-        .then((node) => {
-            response.successHandler(res, __('node.deleted'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
-}
-
-/**
- * Restore a deleted Node by Id
- * @param {Object|Object} request & response
- */
-let restore = (req, res) => {
-    Node.findOne({_id : req.params.id})
-    .then((node) => {
-        // Restore Node
-        node.restore()
-        .then((node) => {
-            response.successHandler(res,  __('node.restored'))
-        })
-        .catch((err) => {
-            response.errorHandler(res, err)
-        })
+    Node.findOne({_id : req.params.id}).remove()
+    .then((doc) => {
+        response.successHandler(res, __('node.deleted'))
     })
     .catch((err) => {
         response.errorHandler(res, err)
