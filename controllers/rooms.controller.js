@@ -1,4 +1,5 @@
 let Room        = require('../models/rooms.model')
+let Node        = require('../models/nodes.model')
 let response    = require('../helpers/responses.helper')
 
 
@@ -25,9 +26,12 @@ let show = (req, res) => {
     let id = req.params.id
     
     Room.findOne({_id : id})
-    .populate('nodes')
     .then((room) => {
-        res.json(room)
+        Node.find({room: id})
+        .then((nodes) => {
+            room.nodes = nodes
+            res.json(room)
+        })                
     })
     .catch((err) => {
         response.errorHandler(res, err)
@@ -96,7 +100,7 @@ let mapParams = (req) => {
 
     return {
         name : room.name,
-        image_name : room.image_name
+        image : room.image
     }
 }
 

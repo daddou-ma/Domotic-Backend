@@ -1,41 +1,47 @@
 /** Includes **/
-let express     = require('express')
-let lang        = require('./commons/lang')
-let mongoose    = require('mongoose')
-let bodyParser  = require('body-parser')
-let dotenv      = require('dotenv')
-let cookieParser = require('cookie-parser')
-let tcpServer	= require('./handler/tcp/tcp.handle')
+const express     = require('express')
+const lang        = require('./commons/lang')
+const mongoose    = require('mongoose')
+const bodyParser  = require('body-parser')
+const dotenv      = require('dotenv')
+const cookieParser = require('cookie-parser')
+const tcpServer	= require('./handler/tcp/tcp.handle')
 
 /** loading .ENV file and Configuration **/
 dotenv.config()
 
 
 /** Includes Routes **/
-let users       = require('./routes/users')
-let sessions    = require('./routes/sessions')
-let boards    	= require('./routes/boards')
-let rooms   	= require('./routes/rooms')
+const users       = require('./routes/users')
+const sessions    = require('./routes/sessions')
+const boards    	= require('./routes/boards')
+const rooms   	= require('./routes/rooms')
 
-let nodes       = require('./routes/nodes')
-let airs    	= require('./routes/airs')
-let curtains	= require('./routes/curtains')
-let switchs    	= require('./routes/switchs')
-let thgs    	= require('./routes/thgs')
+const nodes       = require('./routes/nodes')
+const airs    	= require('./routes/airs')
+const curtains	= require('./routes/curtains')
+const switchs    	= require('./routes/switchs')
+const thgs    	= require('./routes/thgs')
 
-let airHistory       = require('./routes/histories/air-histories')
-let curtainHistory   = require('./routes/histories/curtain-histories')
-let switchHistory    = require('./routes/histories/switch-histories')
-let thgHistory       = require('./routes/histories/thg-histories')
+const airHistory       = require('./routes/histories/air-histories')
+const curtainHistory   = require('./routes/histories/curtain-histories')
+const switchHistory    = require('./routes/histories/switch-histories')
+const thgHistory       = require('./routes/histories/thg-histories')
 
-let airSchedule       = require('./routes/schedules/air-schedules')
-let curtainSchedule   = require('./routes/schedules/curtain-schedules')
-let switchSchedule    = require('./routes/schedules/switch-schedules')
+const airSchedule       = require('./routes/schedules/air-schedules')
+const curtainSchedule   = require('./routes/schedules/curtain-schedules')
+const switchSchedule    = require('./routes/schedules/switch-schedules')
 
 
 /** Creating App Server **/
-let app = express()
-let server = require('http').Server(app)
+const app = express()
+
+const server = require('http').Server(app)
+
+const io = require('socket.io').listen(server)
+
+global.io = io
+global.sockets = []
 
 app.use(lang.init)
 
@@ -73,7 +79,14 @@ let db = mongoose.connection
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
+io.on('connection', (socket) => {  
+  console.log('a user connected');
 
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+  sockets.push(socket)
+})
 
 /** Body Parser **/
 app.use(bodyParser.urlencoded({ extended: false }))

@@ -18,7 +18,7 @@ class CurtainNode extends Node {
 	    	self.curtain = doc
 	    })
 	    .catch((err) => {
-	        console.log('ma tla9itouch')
+	        console.log(err)
 	    })
 	}
 
@@ -36,7 +36,7 @@ class CurtainNode extends Node {
 	    	self.send() 	
 	    })
 	    .catch((err) => {
-	        console.log('ma tla9itouch')
+	        console.log(err)
 	    })
 	}
 
@@ -44,7 +44,16 @@ class CurtainNode extends Node {
 		this.socket.write(JSON.stringify({
 			level		: this.curtain.level
 		}))
+
+		this.sendToSocket(this.curtain)
 	}
+
+	sendToSocket(thg) {
+		global.sockets.map((socket) => {
+			socket.emit(thg._id, thg)
+		})
+	}
+
 }
 
 module.exports = CurtainNode

@@ -17,7 +17,7 @@ class AirNode extends Node {
 	    	self.air = doc
 	    })
 	    .catch((err) => {
-	        console.log('ma tla9itouch')
+	        console.log(err)
 	    })
 	}
 
@@ -30,7 +30,7 @@ class AirNode extends Node {
 	    	self.send() 	
 	    })
 	    .catch((err) => {
-	        console.log('ma tla9itouch')
+	        console.log(err)
 	    })
 	}
 
@@ -41,6 +41,14 @@ class AirNode extends Node {
 			level		: this.air.level,
 			mode 		: this.air.mode
 		}))
+
+		this.sendToSocket(this.air)
+	}
+
+	sendToSocket(thg) {
+		global.sockets.map((socket) => {
+			socket.emit(thg._id, thg)
+		})
 	}
 }
 

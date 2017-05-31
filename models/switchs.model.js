@@ -56,6 +56,15 @@ let SwitchSchema = new Schema({
 
 SwitchSchema.plugin(mongooseAdvancedHook)
 
+SwitchSchema.postUpdate((next, doc, query) => {
+
+    global.sockets.map((socket) => {
+        console.log('dfdfdf')
+        socket.emit(doc._id, doc)
+    })
+    next()
+})
+
 SwitchSchema.postUpdate(function(next, doc, query) {
     let history = new SwitchHistory({
         switch01    : doc.switch01,
@@ -73,7 +82,6 @@ SwitchSchema.postUpdate(function(next, doc, query) {
     })
     history.save()
     .then((doc)=> {
-        console.log(doc)
     })
     .catch((doc)=> {
         console.log(doc)
@@ -86,7 +94,6 @@ SwitchSchema.postUpdate(function(next, doc, query) {
 
     Board.findOne({_id: doc.board})
     .then((doc)=> {
-        console.log(doc)
         if ( tcp_nodes[doc.serial_number]) {
             tcp_nodes[doc.serial_number].sync()
         }
@@ -98,7 +105,7 @@ SwitchSchema.postUpdate(function(next, doc, query) {
     next()
 })
 
-SwitchSchema.postCreate((next, doc, query) => {
+/*SwitchSchema.postCreate((next, doc, query) => {
     console.log(doc.room)
     if(!doc.room) {
         return
@@ -153,7 +160,7 @@ SwitchSchema.postUpdate((next, doc, query) => {
     next()
 })
 
-
+*/
 let Switch = Node.discriminator('Switch', SwitchSchema, {discriminatorKey: 'type'});
 
 /** Export The Switch Model **/

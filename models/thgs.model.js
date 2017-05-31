@@ -30,7 +30,16 @@ let THGSchema = new Schema({
 /* Advanced hooks */
 THGSchema.plugin(mongooseAdvancedHook)
 
-THGSchema.postUpdate(function(next, doc, query) {
+THGSchema.postUpdate((next, doc, query) => {
+
+    global.sockets.map((socket) => {
+        console.log('dfdfdf')
+        socket.emit(doc._id, doc)
+    })
+    next()
+})
+
+/*THGSchema.postUpdate(function(next, doc, query) {
     if (!doc.room) {
         next()
         return
@@ -46,21 +55,25 @@ THGSchema.postUpdate(function(next, doc, query) {
         room.save()
         .then((room) => {
             console.log('Room infos updated', room.name)
+            next()
         })
         .catch((err) => {
             console.log(err)
+            next()
         })
     })
     .catch((err) => {
         console.log(err)
+        next()
     })
-    next()
+    
 })
-
+*/
 /** Action Done After Saving a Node **/
-THGSchema.postCreate((next, doc, query) => {
+/*THGSchema.postCreate((next, doc, query) => {
     console.log(doc.room)
     if(!doc.room) {
+        next()
         return
     }
 
@@ -77,40 +90,44 @@ THGSchema.postCreate((next, doc, query) => {
 })
 
 THGSchema.preUpdate((next, doc, query) => {
-    //console.log(doc.room)
-    if(!doc.room ) {
-        return
-    }
-    
-    Room.findOne({_id: doc.room})
-    .then((room) => {
-        let index = room.nodes.indexOf(doc._id)
-
-        if (index >= 0) {
-            room.nodes.splice(index, 1);
-            room.save()
-        }
-    })
+    this._oldRoom = query._update.$set.room
+    console.log('ddd', query._update.$set)
     next()
 })
-
+ 
 THGSchema.postUpdate((next, doc, query) => {
-    //console.log(doc.room)
-    if(!doc.room) {
-        return
-    }
-
-    Room.findOne({_id: doc.room})
-    .then((room) => {
-        let index = room.nodes.indexOf(doc._id)
-
-        if (index < 0) {
-            room.nodes.push(doc)
-            room.save()
+    query.findOne({_id: doc._id}, (err, doca) => {
+        console.log('dkhalnaaa')
+        if (err || this._oldRoom == doca.room) {
+            return
         }
-    })
+
+        Room.findOne({_id: this._oldRoom})
+        .then((room) => {
+            let index = room.nodes.indexOf(doc._id)
+            console.log('remoooov', index)
+
+            if (index >= 0) {
+                room.nodes.splice(index, 1);
+                room.save()
+            }
+
+
+        })
+        Room.findOne({_id: doca.room})
+            .then((room) => {
+                let index = room.nodes.indexOf(doca._id)
+                console.log('addd', index)
+                if (index < 0) {
+                    room.nodes.push(doca)
+                    room.save()
+                }
+            })
+      console.log('haaaaaaaaaa', doca.room)
+    })  
     next()
 })
+*/
 
 THGSchema.methods.createHistory = function createHistory () {
     let history = new THGHistory({

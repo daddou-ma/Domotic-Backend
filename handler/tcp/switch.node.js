@@ -18,7 +18,7 @@ class SwitchNode extends Node {
 	    	self.switchh = doc
 	    })
 	    .catch((err) => {
-	        console.log('ma tla9itouch')
+	        console.log(err)
 	    })
 	}
 
@@ -31,7 +31,7 @@ class SwitchNode extends Node {
 	    	self.send() 	
 	    })
 	    .catch((err) => {
-	        console.log('ma tla9itouch')
+	        console.log(err)
 	    })
 	}
 
@@ -48,6 +48,13 @@ class SwitchNode extends Node {
             switch09 : this.switchh.switch09,
             switch10 : this.switchh.switch10
 		}))
+		this.sendToSocket(this.switchh)
+	}
+
+	sendToSocket(thg) {
+		global.sockets.map((socket) => {
+			socket.emit(thg._id, thg)
+		})
 	}
 }
 

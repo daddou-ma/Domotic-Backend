@@ -29,6 +29,14 @@ let AirSchema = new Schema({
 /* Advanced hooks */
 AirSchema.plugin(mongooseAdvancedHook)
 
+AirSchema.postUpdate((next, doc, query) => {
+
+    global.sockets.map((socket) => {
+        console.log('dfdfdf')
+        socket.emit(doc._id, doc)
+    })
+    next()
+})
 AirSchema.postUpdate(function(next, doc, query) {
     let history = new AirHistory({
         temperature : doc.temperature,
@@ -65,7 +73,7 @@ AirSchema.postUpdate(function(next, doc, query) {
     next()
 })
 
-AirSchema.postCreate((next, doc, query) => {
+/*AirSchema.postCreate((next, doc, query) => {
     if(!doc.room) {
         next()
         return
@@ -119,8 +127,7 @@ AirSchema.postUpdate((next, doc, query) => {
         room.save()
     })
     next()
-})
-
+})*/
 
 let Air = Node.discriminator('Air', AirSchema, {discriminatorKey : 'type'});
 

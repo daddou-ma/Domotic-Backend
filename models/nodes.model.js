@@ -56,7 +56,7 @@ nodeSchema.plugin(mongooseAdvancedHook)
 // TODO : Relations
 
 /** Action Done After Saving a Node **/
-nodeSchema.postCreate((next, doc, query) => {
+/*nodeSchema.postCreate((next, doc, query) => {
     console.log(doc.room)
     if(!doc.room) {
         return
@@ -109,24 +109,9 @@ nodeSchema.postUpdate((next, doc, query) => {
     })
     next()
 })
-/** Action Done After Update a Node **/
-/*
-nodeSchema.post('update', function() {
-    console.log(this._update.$set)
-    if(this._update.$set.room) {
-        Room.findOne({_id : this._update.$set.room})
-        .then((room) => {
-            Node.findOne({_id: this._conditions._id})
-            .then((node) => {
-                if (room.nodes.indexOf(node._id) < 0) {
-                    room.nodes.push(node)
-                    room.save()
-                }
-            })
-        })
-    }
-})
 */
+
+
 /** Action Done Before Saving a Node **/
 nodeSchema.pre('save', function(next) {
 

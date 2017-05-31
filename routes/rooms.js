@@ -31,15 +31,17 @@ router.get('/:id', (req, res, next) => {
 
 /** POST /rooms/ **/
 router.post('/', uploading.single('image'), (req, res, next) => {
-	if (req.file) {
-		req.body.image_name = req.file.filename
-	}
+	  if (req.file) {
+		    req.body.image_name = req.file.filename
+	  }
     roomController.create(req ,res)
 })
 
 /** PUT /rooms/ **/
-router.put('/:id', (req, res, next) => {
-
+router.put('/:id', uploading.single('image'), (req, res, next) => {
+    if (req.file) {
+      req.body.image_name = req.file.filename
+    }
     roomController.update(req ,res)
 })
 

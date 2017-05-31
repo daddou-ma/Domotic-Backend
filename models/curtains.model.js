@@ -17,6 +17,14 @@ let CurtainSchema = new Schema({
 
 /* Advanced hooks */
 CurtainSchema.plugin(mongooseAdvancedHook)
+CurtainSchema.postUpdate((next, doc, query) => {
+
+    global.sockets.map((socket) => {
+        console.log('dfdfdf')
+        socket.emit(doc._id, doc)
+    })
+    next()
+})
 
 CurtainSchema.postUpdate(function(next, doc, query) {
     let history = new CurtainHistory({
@@ -51,7 +59,7 @@ CurtainSchema.postUpdate(function(next, doc, query) {
     next()
 })
 
-CurtainSchema.postCreate((next, doc, query) => {
+/*CurtainSchema.postCreate((next, doc, query) => {
     console.log(doc.room)
     if(!doc.room) {
         return
@@ -105,7 +113,7 @@ CurtainSchema.postUpdate((next, doc, query) => {
     })
     next()
 })
-
+*/
 let Curtain = Node.discriminator('Curtain', CurtainSchema, {discriminatorKey: 'type'});
 
 

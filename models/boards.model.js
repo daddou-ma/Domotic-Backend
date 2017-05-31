@@ -89,6 +89,7 @@ boardSchema.post('save', function() {
             let air = new Air({
                 "board" : this._id,
                 "name"  : 'default name',
+                "room"  : '5922ea58a76fff188f447c5f',
                 "level" : 1,
                 "mode"  : 2,
                 "type"  : "Air",
@@ -102,6 +103,7 @@ boardSchema.post('save', function() {
             let curtain = new Curtain({
                 "board" : this._id,
                 "name"  : 'default name',
+                "room"  : '5922ea58a76fff188f447c5f',
                 "type"  : "Curtain",
                 "level" : 1
             })
@@ -112,6 +114,7 @@ boardSchema.post('save', function() {
             let switchh = new Switch({
                 "board" : this._id,
                 "name"  : 'default name',
+                "room"  : '5922ea58a76fff188f447c5f',
                 "type"  : "Switch",
                 "switch01" : true,
                 "switch02" : false,
@@ -131,6 +134,7 @@ boardSchema.post('save', function() {
             let thg = new THG({
                 "board" : this._id,
                 "name"  : 'default name',
+                "room"  : '5922ea58a76fff188f447c5f',
                 "type"  : "THG",
                 "level" : 1,
                 "mode"  : 2,

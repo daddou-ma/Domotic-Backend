@@ -74,7 +74,7 @@ let server = net.createServer(options, function(socket) {
 	        board.save()
 	        .then((board)=> {
 	        	switch(obj.type) {
-	    		case 'air':
+	    			case 'air':
 			            nodes[obj.serial_number] = new AirNode(socket, board)
 			        break;
 			        case 'curtain':
@@ -103,4 +103,4 @@ let server = net.createServer(options, function(socket) {
 	socket.on('data', connect)
 })
 
-server.listen(5000, '192.168.8.103')
+server.listen(5000, '192.168.8.100')

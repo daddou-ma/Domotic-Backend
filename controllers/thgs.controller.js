@@ -60,21 +60,15 @@ let create = (req, res) => {
  */
 let update = (req, res) => {
     // Find THG
-    console.log(mapParams(req))
-    THG.findOne({_id : req.params.id})
-    .then((thg) => {
-        // Update THG
-        thg.update(mapParams(req))
+    const params = mapParams(req)
+    console.log(params)
+    THG.findOne({_id : req.params.id}).update(params)
         .then((thg) => {
             response.successHandler(res, __('thg.updated'))
         })
         .catch((err) => {
             response.errorHandler(res, err)
         })
-    })
-    .catch((err) => {
-        response.errorHandler(res, err)
-    })
 }
 
 /**

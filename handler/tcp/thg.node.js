@@ -25,7 +25,7 @@ class THGNode extends Node {
 			setInterval(self.createHistory.bind(self), historyInterval)
 	    })
 	    .catch((err) => {
-	        console.log('ma tla9itouch')
+	        console.log(err)
 	    })
 	}
 
@@ -34,8 +34,15 @@ class THGNode extends Node {
 		this.thg.humidity	 = data.humidity
 		this.thg.gaz		 = data.gaz
 		this.thg.light		 = data.light
-
 		this.thg.save()
+
+		this.sendToSocket(this.thg)
+	}
+
+	sendToSocket(thg) {
+		global.sockets.map((socket) => {
+			socket.emit(thg._id, thg)
+		})
 	}
 
 	createHistory() {
